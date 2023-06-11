@@ -1,0 +1,21 @@
+name: Integration continue backend node-express
+on: push
+
+jobs:
+  check-backend:
+    name: Check du code source back
+
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./backend
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: install packages
+        run: npm install
+
+      - name: lint, type-check, test
+        run: npm run test-all

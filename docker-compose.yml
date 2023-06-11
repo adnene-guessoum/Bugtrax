@@ -1,0 +1,53 @@
+version: "3.8"
+
+services:
+  frontend:
+    image: "front-container:dev"
+    container_name: front-container-dev
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+      cache_from:
+        - "front-container:dev"
+    command: npm -Wd run dev
+    ports:
+      - 3000:3000
+    depends_on:
+      - backend
+    env_file:
+      - ./frontend/.env.local
+    volumes:
+      - ./frontend:/front
+      - /front/node_modules
+
+
+  backend:
+    image: "back-container:dev"
+    container_name: back-container-dev
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+      cache_from:
+        - "back-container:dev"
+    ports:
+      - 8000:8000
+    env_file:
+      - ./backend/.env.dev
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+
+  psql_db:
+    image: postgres
+    restart: unless-stopped
+    ports:
+      - 5000:5000
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - ./.env
+
+volumes:
+  front_build:
+  back_build:
+  postgres_data:

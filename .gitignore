@@ -1,0 +1,141 @@
+# AWS User-specific
+# Backup files #
+# Distribution / packaging
+# Django
+# Django #
+# Environments
+# File-based project format
+# Generated files
+# Gradle
+# If you are using PyCharm #
+# Installer logs
+# IntelliJ
+# JIRA plugin
+# Jupyter Notebook
+# Package control specific files Package
+# Python
+# SageMath parsed files
+# Sensitive or high-churn files
+# Sublime Text #
+# Unit test / coverage reports
+# User-specific stuff
+# Visual Studio Code #
+# build
+# celery
+# env
+# mkdocs documentation
+# mypy
+# node
+# pyenv
+# react
+# sftp configuration file
+# temporary files and folders
+# vim
+*$py.class
+*.bak
+*.cache
+*.cover
+*.db
+*.diff
+*.egg
+*.egg-info/
+*.iws
+*.log
+*.manifest
+*.pot
+*.py[cod]
+*.pyc
+*.sage.py
+*.spec
+*.sqlite3
+*.sqlite3-journal
+*.stTheme.cache
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.tmPreferences.cache
+*.tmlanguage.cache
+*.tmp
+.Python build/
+.cache
+.coverage
+.coverage.*
+.eggs/
+.env
+.env.dev
+.env.local
+.env.prod
+.history
+.hypothesis/
+.idea/**/aws.xml
+.idea/**/contentModel.xml
+.idea/**/dataSources.ids
+.idea/**/dataSources.local.xml
+.idea/**/dataSources/
+.idea/**/dbnavigator.xml
+.idea/**/dictionaries
+.idea/**/dynamic.xml
+.idea/**/gradle.xml
+.idea/**/libraries
+.idea/**/shelf
+.idea/**/sqlDataSources.xml
+.idea/**/tasks.xml
+.idea/**/uiDesigner.xml
+.idea/**/usage.statistics.xml
+.idea/**/workspace.xml
+.installed.cfg
+.ipynb_checkpoints
+.mypy_cache/
+.next
+.pytest_cache/
+.python-version
+.tox/
+.venv
+.vscode/*
+/site
+Control.ca-bundle
+Control.ca-list
+Control.last-run
+Control.system-ca-bundle
+ENV/
+GitHub.sublime-settings
+__pycache__
+__pycache__/
+atlassian-ide-plugin.xml
+build
+celerybeat-schedule.*
+coverage.xml
+coverage/
+db.sqlite3
+develop-eggs/
+dist
+dist/
+docker-cmd
+downloads/
+eggs/
+env.bak/
+env/
+garbage/
+htmlcov/
+lib/
+lib64/
+local_settings.py
+media
+node_modules
+nosetests.xml
+npm-debug.log*
+out/
+parts/
+pip-delete-this-directory.txt
+pip-log.txt
+sdist/
+sftp-config.json
+tags
+temp/
+tmp/
+unused.txt
+var/
+venv.bak/
+venv/
+wheels/
+yarn-debug.log*

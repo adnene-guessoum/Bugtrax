@@ -1,0 +1,12 @@
+# compléter les informations nécessaires pour base de données de développement
+# puis renommer le fichier en .env
+
+# les images officielles sont utilisées pour les conteneurs de bases de données
+# pour plus d'informations, voir les fichiers docker-compose.yml et la documentation officielle
+
+ENVIRONMENT_TAG=dev
+
+# Postgres dev
+POSTGRES_USER=
+POSTGRES_PASSWORD=
+POSTGRES_DB=
