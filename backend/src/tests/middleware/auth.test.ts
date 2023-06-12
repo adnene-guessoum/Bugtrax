@@ -55,4 +55,23 @@ describe('Auth middleware', () => {
     expect(next).not.toHaveBeenCalled();
     expect(res.json).not.toHaveBeenCalled();
   });
+
+  it('should call next() if valid token and not return', () => {
+    const token = 'valid-token';
+    const decoded = { user: 'user_id' };
+
+    (jwt.verify as jest.Mock).mockImplementation(() => decoded);
+    req.headers = { 'x-access-token': token };
+
+    auth(req as Request, res as Response, next);
+
+    expect(jwt.verify).toHaveBeenCalledWith(token, process.env.JWT_SECRET);
+    expect(req).toMatchObject(decoded);
+    expect(req.user).toBe(decoded.user);
+    expect(next).toHaveBeenCalled();
+
+    expect(res.status).not.toHaveBeenCalledWith(200);
+    expect(res.json).not.toHaveBeenCalled();
+    expect(res.send).not.toHaveBeenCalled();
+  });
 });
