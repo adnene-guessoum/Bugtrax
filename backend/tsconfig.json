@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-		"baseUrl": "./src",
+    "baseUrl": "./src",
     "module": "ESNext",
     "target": "esnext",
     "allowJs": true,
@@ -25,9 +25,9 @@
     "isolatedModules": true,
     "incremental": true
   },
-	"ts-node": {
-		"esm": true
-	},
+  "ts-node": {
+    "esm": true
+  },
   "exclude": ["node_modules", "out", "dist"],
   "include": ["src", "*.ts", "**/*.js"]
 }

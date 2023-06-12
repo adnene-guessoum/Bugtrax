@@ -1,17 +1,27 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
+import dotenv from 'dotenv';
+dotenv.config({ path: '../.env' });
 
-const hostname = process.env.HOST || '0.0.0.0';
-const port = process.env.PORT || 8000;
+/*
+import userRouter from './routes/users';
+import authRouter from './routes/auth';
+import ticketRouter from './routes/tickets';
+*/
+
+const hostname = '0.0.0.0';
+const port = 8000;
 
 const app = express();
 
 app.use(express.json());
 
-app.use('/api/users', require('./routes/users'));
-app.use('/api/auth', require('./routes/auth'));
-app.use('/api/tickets', require('./routes/tickets'));
+/*
+app.use('/api/users', userRouter);
+app.use('/api/auth', authRouter);
+app.use('/api/tickets', ticketRouter);
+*/
 
-app.get('/', (req: Request, res: Response) => {
+app.get('/', (req, res) => {
   console.log(req.headers);
   res.status(200).send('Hello world!');
 });
