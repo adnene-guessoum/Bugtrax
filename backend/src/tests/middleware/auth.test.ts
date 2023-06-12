@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+import jwt from 'jsonwebtoken';
 import auth from '../../middleware/auth.ts';
 
 jest.mock('jsonwebtoken');
@@ -33,5 +34,25 @@ describe('Auth middleware', () => {
     });
     expect(next).not.toHaveBeenCalled();
     expect(res.send).not.toHaveBeenCalled();
+  });
+
+  it('should return 500 if invalid token provided', () => {
+    const error = new Error('Invalid token');
+
+    (jwt.verify as jest.Mock).mockImplementation(() => {
+      throw error;
+    });
+
+    req.headers = { 'x-access-token': 'invalid-token' };
+
+    auth(req as Request, res as Response, next);
+
+    expect(res.status).toHaveBeenCalledWith(500);
+    expect(res.send).toHaveBeenCalledWith({
+      auth: false,
+      message: 'Token invalide. Veuillez vous reconnecter'
+    });
+    expect(next).not.toHaveBeenCalled();
+    expect(res.json).not.toHaveBeenCalled();
   });
 });
