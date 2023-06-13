@@ -1,12 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt, { Secret, JwtPayload } from 'jsonwebtoken';
+import { IUser } from '../models/User.ts';
 
 import dotenv from 'dotenv';
 dotenv.config({ path: '../../.env' });
 
 declare module 'express' {
   interface Request {
-    user: string;
+    user: IUser;
   }
 }
 

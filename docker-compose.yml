@@ -20,7 +20,6 @@ services:
       - ./frontend:/front
       - /front/node_modules
 
-
   backend:
     image: "back-container:dev"
     container_name: back-container-dev
@@ -37,17 +36,18 @@ services:
       - ./backend:/app
       - /app/node_modules
 
-  psql_db:
-    image: postgres
+  mongodb:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin-user
+      MONGO_INITDB_ROOT_PASSWORD: admin-password
+      MONGO_INITDB_DATABASE: test-database
     restart: unless-stopped
     ports:
-      - 5000:5000
+      - 27017:27017
     volumes:
-      - postgres_data:/var/lib/postgresql/data/
-    env_file:
-      - ./.env
+      - ./db:/data/db
 
 volumes:
   front_build:
   back_build:
-  postgres_data:
