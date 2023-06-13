@@ -1,9 +1,9 @@
 
-# Web app full stack  Bugtracker
+# Web app full stack Bugtracker
 
 ## Idée générale du projet:
 
-Bug tracker avec auth, base de données, etc...
+Bug tracker avec auth, base de données, Dockerization etc...
 
 ## Parcours utilisateurs:
 
@@ -40,8 +40,8 @@ En tant qu'utilisateur je veux pouvoir:
 - node
 - express
 - typescript
-- node-postgres
-- psql
+- mongoose
+- mongodb
 
 ## Participation:
 
@@ -60,12 +60,11 @@ En tant qu'utilisateur je veux pouvoir:
 		```
 frontend next: port 3000; backend node: port 8000
 
-- bases de données utilisables pour dev dans leurs conteneurs:
+- base de données utilisable pour le dev dans conteneurs (montée dans le dossier ./db pour persistance et accèssibillité):
 
-		psql:localhost:5000
-		cf. docker-compose.yml
-
-- compléter .env dans root folder pour base de données de dev avec docker-compose (voir example.rootenv)
+		mongodb: localhost:27017
+		admin usernames et passwords pour les tests locaux uniquement
+		cf. docker-compose.yml - image mongo officielle
 
 - Tests/lint/format:
 	- ```npm run test-all``` dans frontend next et backend node: eslint, prettier, type-check et tests unitaires (pour les commandes spécifiques: voir package.json)
@@ -85,10 +84,9 @@ Normalement, tout est bon. vous êtes prêts. si questions, n'hésitez pas.
 - [x] créer le readme avec explications du projet
 - [x] créer le docker-compose / containers pour chaque partie de l'app
 - [x] mettre en place intégration continue (gh actions: lint/format/test on push/pull; peut-être pre-hooks commits ? pas décider encore...)
-- [x] connecter les bases de données (postgresql): local pour dev
-- [] scripts population des bases et création de quelques users
+- [x] connecter les bases de données (mongodb): local pour dev
 - [] voir pour déploiement continue (quand il y aura qqchose à déployer)
-- [] connecter les bases de données de prod projet google cloud (idem plus tard)
+- [] connecter les bases de données de prod projet google cloud (idem plus tard - mongo atlas )
 
 #### En Cours:
 
@@ -99,5 +97,7 @@ Frontend:
 - ... cf. Readme front
 
 Backend:
+- [x] tests unitaires
 - [] auth et user models
+- [] ticket models
 - ... cf. Readme back
