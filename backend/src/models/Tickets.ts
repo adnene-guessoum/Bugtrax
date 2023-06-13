@@ -1,24 +1,15 @@
 import mongoose from 'mongoose';
-import { IUser } from './User';
+import { IUser } from './User.ts';
 
 export interface TicketDocument extends mongoose.Document {
-  user: IUser;
+  user: IUser['_id'];
   nomTicket: string;
   description: string;
   etat: string;
   dateCreation: Date;
-  dateFin: Date;
-  impact: string;
   priorite: string;
-  categorie: string;
-  cause: string;
-  solution: string;
-  commentaire: string;
-  assigneA: string;
-  assignePar: string;
-  tempsEstime: string;
-  tempsPasse: string;
-  tempsRestant: string;
+  tempsEstime: number;
+  tempsPasse: number;
 }
 
 const TicketSchema = new mongoose.Schema({
@@ -43,53 +34,18 @@ const TicketSchema = new mongoose.Schema({
     type: Date,
     required: true
   },
-  dateFin: {
-    type: Date,
-    required: true
-  },
-  impact: {
-    type: String,
-    required: true
-  },
   priorite: {
     type: String,
     required: true
   },
-  categorie: {
-    type: String,
-    required: true
-  },
-  cause: {
-    type: String,
-    required: true
-  },
-  solution: {
-    type: String,
-    required: true
-  },
-  commentaire: {
-    type: String,
-    required: true
-  },
-  assigneA: {
-    type: String,
-    required: true
-  },
-  assignePar: {
-    type: String,
-    required: true
-  },
   tempsEstime: {
-    type: String,
-    required: true
+    type: Number, // en heures
+    required: true,
+    default: 0
   },
   tempsPasse: {
-    type: String,
-    required: true
-  },
-  tempsRestant: {
-    type: String,
-    required: true
+    type: Number, // en heures
+    default: 0
   }
 });
 

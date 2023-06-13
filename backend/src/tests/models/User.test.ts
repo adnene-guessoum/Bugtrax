@@ -15,6 +15,10 @@ describe('User model', () => {
       .catch(err => console.log(err));
   });
 
+  afterEach(async () => {
+    await User.deleteMany({});
+  });
+
   afterAll(async () => {
     await new Promise(resolve => setTimeout(resolve, 1000));
     await mongoose.connection.db.dropDatabase();

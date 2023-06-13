@@ -1,5 +1,6 @@
 import mongoose, { ConnectOptions } from 'mongoose';
-import Ticket from '../../models/Ticket.ts';
+import Ticket from '../../models/Tickets.ts';
+import { TicketDocument } from '../../models/Tickets.ts';
 
 describe('Tickets model', () => {
   beforeAll(async () => {
@@ -15,6 +16,10 @@ describe('Tickets model', () => {
       .catch(err => console.log(err));
   });
 
+  afterEach(async () => {
+    await Ticket.deleteMany({});
+  });
+
   afterAll(async () => {
     await new Promise(resolve => setTimeout(resolve, 1000));
     await mongoose.connection.db.dropDatabase();
@@ -22,24 +27,15 @@ describe('Tickets model', () => {
   });
 
   it('should create and save a new ticket', async () => {
-    const ticket = new Ticket({
-      user: '',
+    const ticket: TicketDocument = new Ticket({
+      user: new mongoose.Types.ObjectId().toHexString(),
       nomTicket: 'Ticket 1',
       description: 'Description du ticket 1',
       etat: 'En cours',
       dateCreation: '2020-01-01',
-      dateFin: '2020-01-02',
-      impact: 'Moyen',
       priorite: 'Haute',
-      categorie: 'Catégorie 1',
-      cause: 'Cause 1',
-      solution: 'Solution 1',
-      commentaire: 'Commentaire 1',
-      assigneA: 'Assigné à 1',
-      assignePar: 'Assigné par 1',
-      tempsEstime: 'Temps estimé 1',
-      tempsPasse: 'Temps passé 1',
-      tempsRestant: 'Temps restant 1'
+      tempsEstime: 2,
+      tempsPasse: 0.5
     });
 
     const savedTicket = await ticket.save();
@@ -49,17 +45,27 @@ describe('Tickets model', () => {
     expect(savedTicket.description).toBe(ticket.description);
     expect(savedTicket.etat).toBe(ticket.etat);
     expect(savedTicket.dateCreation).toBe(ticket.dateCreation);
-    expect(savedTicket.dateFin).toBe(ticket.dateFin);
-    expect(savedTicket.impact).toBe(ticket.impact);
     expect(savedTicket.priorite).toBe(ticket.priorite);
-    expect(savedTicket.categorie).toBe(ticket.categorie);
-    expect(savedTicket.cause).toBe(ticket.cause);
-    expect(savedTicket.solution).toBe(ticket.solution);
-    expect(savedTicket.commentaire).toBe(ticket.commentaire);
-    expect(savedTicket.assigneA).toBe(ticket.assigneA);
-    expect(savedTicket.assignePar).toBe(ticket.assignePar);
     expect(savedTicket.tempsEstime).toBe(ticket.tempsEstime);
     expect(savedTicket.tempsPasse).toBe(ticket.tempsPasse);
-    expect(savedTicket.tempsRestant).toBe(ticket.tempsRestant);
+  });
+
+  it('should not create a ticket without required fields', async () => {
+    const ticket: TicketDocument = new Ticket({
+      user: new mongoose.Types.ObjectId().toHexString(),
+      nomTicket: 'Ticket 1'
+    });
+
+    let err: any;
+    try {
+      const savedTicket = await ticket.save();
+      err = savedTicket;
+    } catch (error) {
+      err = error;
+    }
+
+    expect(err).toBeInstanceOf(mongoose.Error.ValidationError);
+    expect(err.errors.description).toBeDefined();
+    expect(err.errors.etat).toBeDefined();
   });
 });
