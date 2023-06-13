@@ -107,6 +107,8 @@ celerybeat-schedule.*
 coverage.xml
 coverage/
 db.sqlite3
+db/*
+!db/README.md
 develop-eggs/
 dist
 dist/
