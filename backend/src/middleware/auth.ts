@@ -1,18 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt, { Secret, JwtPayload } from 'jsonwebtoken';
-import { IUser } from '../models/User.ts';
 
 import dotenv from 'dotenv';
 dotenv.config({ path: '../../.env' });
 
-declare module 'express' {
-  interface Request {
-    user: IUser;
-  }
-}
-
-export default function (
-  req: Request,
+export const auth = function (
+  req: Request & { user?: string },
   res: Response,
   next: NextFunction
 ): Response | void {
@@ -42,4 +35,4 @@ export default function (
       message: 'Token invalide. Veuillez vous reconnecter'
     });
   }
-}
+};

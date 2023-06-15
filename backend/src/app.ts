@@ -4,8 +4,8 @@ import dotenv from 'dotenv';
 dotenv.config({ path: '../.env' });
 
 import userRouter from './routes/users.ts';
-import authRouter from './routes/auth';
-import ticketRouter from './routes/tickets';
+import authRouter from './routes/auth.ts';
+import ticketRouter from './routes/tickets.ts';
 
 const hostname = '0.0.0.0';
 const port = 8000;
@@ -13,7 +13,7 @@ const port = 8000;
 const app = express();
 
 // base de données
-const uri = process.env.MONGO_URI;
+const uri = process.env.MONGO_URI as string;
 mongoose
   .connect(uri, {
     useNewUrlParser: true,

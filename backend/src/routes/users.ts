@@ -2,7 +2,8 @@ import express from 'express';
 import { check, validationResult } from 'express-validator';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { IUser } from '../models/User.ts';
+import User, { IUser } from '../models/User.ts';
+import { Request, Response } from 'express';
 
 const router: express.Router = express.Router();
 
@@ -12,30 +13,36 @@ const validateUserRegistration = [
     .isEmpty(),
   check('email', 'Veuillez entrer un email valide').isEmail(),
   check(
-    'password',
+    'motDePasse',
     'Veuillez entrer un mot de passe avec 6 ou plus de caractères'
   ).isLength({ min: 6 })
 ];
 
 const DbCheckEmailAlreadyExists = async (email: string) => {
-  const user: IUser = await User.findOne({ email });
+  const user: IUser | null = await User.findOne({ email });
   if (user) {
     return true;
   }
   return false;
 };
 
-const DbCheckUsernameAlreadyExists = async (username: string) => {
-  const user = await User.findOne({ username });
+const DbCheckUsernameAlreadyExists = async (nomUtilisateur: string) => {
+  const user = await User.findOne({ nomUtilisateur });
   if (user) {
     return true;
   }
   return false;
 };
 
-const DbUserCheck = async (username: string, email: string) => {
+const DbUserCheck = async (
+  nomUtilisateur: string,
+  email: string,
+  res: Response
+) => {
   const emailAlreadyExists = await DbCheckEmailAlreadyExists(email);
-  const usernameAlreadyExists = await DbCheckUsernameAlreadyExists(username);
+  const usernameAlreadyExists = await DbCheckUsernameAlreadyExists(
+    nomUtilisateur
+  );
 
   if (emailAlreadyExists) {
     return res.status(400).json({
@@ -54,66 +61,71 @@ const DbUserCheck = async (username: string, email: string) => {
   }
 };
 
-const sendJwtToken = async user => {
+const sendJwtToken = async (user: IUser, res: Response) => {
   const payload = {
     user: {
-      id: user.id
+      id: user._id
     }
   };
 
   jwt.sign(
     payload,
-    process.env.JWT_SECRET,
+    process.env.JWT_SECRET as string,
     { expiresIn: 3600 },
     (err, token) => {
       if (err) throw err;
-      res.json({ token });
+      res.json(token);
     }
   );
 };
 
 const DbCreateUser = async (
-  username: string,
+  nomUtilisateur: string,
   email: string,
-  password: string
+  motDePasse: string,
+  res: Response
 ) => {
-  const user = new User({
-    username,
+  const user = new User<Partial<IUser>>({
+    nomUtilisateur,
     email,
-    password
+    motDePasse
   });
 
   const salt = await bcrypt.genSalt(10);
-  user.password = await bcrypt.hash(password, salt);
+  user.motDePasse = await bcrypt.hash(motDePasse, salt);
 
   await user.save();
 
-  sendJwtToken(user);
+  sendJwtToken(user, res);
 };
 
 const handleUserRegistration = async (req: Request, res: Response) => {
   const validationErrors = validationResult(req);
   if (!validationErrors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
+    return res.status(400).json({ errors: validationErrors.array() });
   }
 
-  const { username, email, password } = req.body;
+  const { nomUtilisateur, email, motDePasse } = req.body;
 
   try {
-    DbUserCheck(username, email);
-  } catch (err) {
+    DbUserCheck(nomUtilisateur, email, res);
+  } catch (err: any) {
     console.error(err.message);
     res.status(500).send('Erreur serveur lors de la vérification des données');
   }
 
   try {
-    DbCreateUser(username, email, password);
-  } catch (err) {
+    DbCreateUser(nomUtilisateur, email, motDePasse, res);
+  } catch (err: any) {
     console.error(err.message);
     res.status(500).send("Erreur serveur lors de la création de l'utilisateur");
   }
 };
 
-router.post('/register', validateUserRegistration, handleUserRegistration);
+router.post(
+  '/register',
+  validateUserRegistration,
+  handleUserRegistration as any
+);
 
 export default router;
