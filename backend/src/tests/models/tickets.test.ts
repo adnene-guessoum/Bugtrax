@@ -1,6 +1,5 @@
 import mongoose, { ConnectOptions } from 'mongoose';
-import Ticket from '../../models/Tickets.ts';
-import { TicketDocument } from '../../models/Tickets.ts';
+import Ticket, { TicketDocument } from '../../models/tickets.ts';
 
 describe('Tickets model', () => {
   beforeAll(async () => {

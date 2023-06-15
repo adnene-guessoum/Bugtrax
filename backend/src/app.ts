@@ -4,7 +4,6 @@ import dotenv from 'dotenv';
 dotenv.config({ path: '../.env' });
 
 import userRouter from './routes/users.ts';
-import authRouter from './routes/auth.ts';
 import ticketRouter from './routes/tickets.ts';
 
 const hostname = '0.0.0.0';
@@ -25,7 +24,6 @@ mongoose
 app.use(express.json());
 
 app.use('/api/users', userRouter);
-app.use('/api/auth', authRouter);
 app.use('/api/tickets', ticketRouter);
 
 app.get('/', (req, res) => {

@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import auth from '../../middleware/auth.ts';
+import { auth } from '../../middleware/auth.ts';
 
 jest.mock('jsonwebtoken');
 
 describe('Auth middleware', () => {
-  let req: Partial<Request>;
+  let req: Partial<Request> & { user?: string };
   let res: Partial<Response>;
   let next: NextFunction;
 
@@ -62,6 +62,7 @@ describe('Auth middleware', () => {
 
     (jwt.verify as jest.Mock).mockImplementation(() => decoded);
     req.headers = { 'x-access-token': token };
+    req.user = 'user_id';
 
     auth(req as Request, res as Response, next);
 
