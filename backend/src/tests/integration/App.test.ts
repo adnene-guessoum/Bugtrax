@@ -1,4 +1,4 @@
-import App from '../app.ts';
+import App from '../../app.ts';
 import request from 'supertest';
 import mongoose from 'mongoose';
 

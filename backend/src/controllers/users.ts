@@ -1,7 +1,6 @@
 /*
  * Controllers pour users routes: login, register, get user
  */
-
 import { check, validationResult } from 'express-validator';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
@@ -184,5 +183,10 @@ export {
   handleUserRegistration,
   handleGetUser,
   validateUserLogin,
-  handleUserLogin
+  handleUserLogin,
+  DbUserMatchCheck,
+  DbUserCheckRegistration,
+  DbCheckEmailAlreadyExists,
+  DbCheckUsernameAlreadyExists,
+  DbCreateUser
 };

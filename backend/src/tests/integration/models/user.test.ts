@@ -1,5 +1,5 @@
 import mongoose, { ConnectOptions } from 'mongoose';
-import User from '../../models/user.ts';
+import User from '../../../models/user.ts';
 
 describe('User model', () => {
   beforeAll(async () => {
