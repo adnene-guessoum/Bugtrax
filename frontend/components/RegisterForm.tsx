@@ -9,7 +9,10 @@ const RegisterForm = (): JSX.Element => {
   const registerSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const _response = await axios.post(`/auth/register`, user);
+      const _response = await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/register`,
+        user
+      );
       setIsRegistered(true);
       alertRegister();
     } catch (err) {

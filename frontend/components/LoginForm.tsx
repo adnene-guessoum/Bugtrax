@@ -18,10 +18,13 @@ const LoginForm = () => {
   const loginSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`/auth/login`, {
-        email: user.email,
-        password: user.password
-      });
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}api/users/login`,
+        {
+          email: user.email,
+          password: user.password
+        }
+      );
       setUser({ name: '', email: '', password: '' });
       localStorage.setItem('token', res.data.token);
       setIsLoggedIn(true);
@@ -87,8 +90,8 @@ const LoginForm = () => {
           >
             Se connecter
           </button>
-          <div>{error}</div>
         </div>
+        <div className="text-red-500">{error}</div>
         <button
           data-testid="submit-google"
           type="submit"
