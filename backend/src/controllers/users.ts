@@ -8,12 +8,10 @@ import User, { IUser } from '../models/user.ts';
 import { Request, Response } from 'express';
 
 const validateUserRegistration = [
-  check("Nom d'utilisateur", "Veuillez entrer un nom d'utilisateur")
-    .not()
-    .isEmpty(),
+  check('username', "Veuillez entrer un nom d'utilisateur").not().isEmpty(),
   check('email', 'Veuillez entrer un email valide').isEmail(),
   check(
-    'motDePasse',
+    'password',
     'Veuillez entrer un mot de passe avec 6 ou plus de caractères'
   ).isLength({ min: 6 })
 ];
@@ -62,19 +60,19 @@ const DbUserCheckRegistration = async (
 };
 
 const DbCreateUser = async (
-  nomUtilisateur: string,
+  username: string,
   email: string,
-  motDePasse: string,
+  password: string,
   res: Response
 ) => {
   const user = new User<Partial<IUser>>({
-    nomUtilisateur,
+    nomUtilisateur: username,
     email,
-    motDePasse
+    motDePasse: password
   });
 
   const salt = await bcrypt.genSalt(10);
-  user.motDePasse = await bcrypt.hash(motDePasse, salt);
+  user.motDePasse = await bcrypt.hash(password, salt);
 
   await user.save();
 
@@ -87,17 +85,17 @@ const handleUserRegistration = async (req: Request, res: Response) => {
     return res.status(400).json({ errors: validationErrors.array() });
   }
 
-  const { nomUtilisateur, email, motDePasse } = req.body;
+  const { username, email, password } = req.body;
 
   try {
-    DbUserCheckRegistration(nomUtilisateur, email, res);
+    DbUserCheckRegistration(username, email, res);
   } catch (err: any) {
     console.error(err.message);
     res.status(500).send('Erreur serveur lors de la vérification des données');
   }
 
   try {
-    DbCreateUser(nomUtilisateur, email, motDePasse, res);
+    DbCreateUser(username, email, password, res);
   } catch (err: any) {
     console.error(err.message);
     res.status(500).send("Erreur serveur lors de la création de l'utilisateur");

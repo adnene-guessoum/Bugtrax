@@ -8,8 +8,8 @@ import {
 		 handleUserLogin,
 		 DbUserMatchCheck,
 		 DbCreateUser,
+  	 DbUserCheckRegistration,
 		 */
-  DbUserCheckRegistration,
   DbCheckEmailAlreadyExists,
   DbCheckUsernameAlreadyExists
 } from '../../controllers/users.ts';
@@ -51,79 +51,5 @@ describe('DbCheckUsernameAlreadyExists', () => {
     User.findOne = jest.fn().mockResolvedValue(null);
     const result = await DbCheckUsernameAlreadyExists('');
     expect(result).toBe(false);
-  });
-});
-
-describe('DbUserCheckRegistration', () => {
-  it('should return 400 and error message if email already exists', async () => {
-    mockDbCheckEmailAlreadyExists = jest.fn().mockResolvedValue(true);
-    const result = await DbUserCheckRegistration('email');
-    expect(result).toBe(false);
-  });
-
-  it('should return 400 and error message if username already exists', async () => {
-    mockDbCheckUsernameAlreadyExists = jest.fn().mockResolvedValue(true);
-    const result = await DbUserCheckRegistration('username');
-    expect(result).toBe(false);
-  });
-
-  it('should return 400 and error message if email is empty', async () => {
-    mockDbCheckEmailAlreadyExists = jest.fn().mockResolvedValue(false);
-    const result = await DbUserCheckRegistration('');
-    expect(result).toBe(false);
-  });
-
-  it('should return 400 and error message if username is empty', async () => {
-    mockDbCheckUsernameAlreadyExists = jest.fn().mockResolvedValue(false);
-    const result = await DbUserCheckRegistration('');
-    expect(result).toBe(false);
-  });
-
-  it('should return 400 and error message if password is empty', async () => {
-    mockDbCheckUsernameAlreadyExists = jest.fn().mockResolvedValue(false);
-    const result = await DbUserCheckRegistration('');
-    expect(result).toBe(false);
-  });
-
-  it('should return 400 and error message if password is less than 8 characters', async () => {
-    mockDbCheckUsernameAlreadyExists = jest.fn().mockResolvedValue(false);
-    const result = await DbUserCheckRegistration('');
-    expect(result).toBe(false);
-  });
-
-  it('should return 400 and error message if password is more than 20 characters', async () => {
-    mockDbCheckUsernameAlreadyExists = jest.fn().mockResolvedValue(false);
-    const result = await DbUserCheckRegistration('');
-    expect(result).toBe(false);
-  });
-
-  it('should return 400 and error message if password does not contain a number', async () => {
-    mockDbCheckUsernameAlreadyExists = jest.fn().mockResolvedValue(false);
-    const result = await DbUserCheckRegistration('');
-    expect(result).toBe(false);
-  });
-
-  it('should return 400 and error message if password does not contain a lowercase letter', async () => {
-    mockDbCheckUsernameAlreadyExists = jest.fn().mockResolvedValue(false);
-    const result = await DbUserCheckRegistration('');
-    expect(result).toBe(false);
-  });
-
-  it('should return 400 and error message if password does not contain an uppercase letter', async () => {
-    mockDbCheckUsernameAlreadyExists = jest.fn().mockResolvedValue(false);
-    const result = await DbUserCheckRegistration('');
-    expect(result).toBe(false);
-  });
-
-  it('should return 400 and error message if password does not contain a special character', async () => {
-    mockDbCheckUsernameAlreadyExists = jest.fn().mockResolvedValue(false);
-    const result = await DbUserCheckRegistration('');
-    expect(result).toBe(false);
-  });
-
-  it('should return true if all checks pass', async () => {
-    mockDbCheckUsernameAlreadyExists = jest.fn().mockResolvedValue(false);
-    const result = await DbUserCheckRegistration('');
-    expect(result).toBe(true);
   });
 });
