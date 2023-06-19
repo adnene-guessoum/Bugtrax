@@ -14,11 +14,12 @@ const AboutPage = (): JSX.Element => {
 
         <div
           data-testid="about-project"
-          className="text-xl w-full md:w-4/5 lg:w-2/3 my-10 text-justify"
+          className="text-xl w-full md:w-4/5 lg:w-2/3 my-4 text-justify"
         >
           Cette application est un projet personnel qui a pour but de faciliter
-          la recherche et l&apos;annotation de documents à partir de leur
-          contenue. (recherche sémantique et génération de résumé).
+          la recherche et l&apos;annotation de tickets liés à des bugs dans un
+          projet informatique. Elle est composée d&apos;un frontend en
+          Next/React et d&apos;un backend en Node/Express.
         </div>
         <p className="text-xl font-semibold">
           Vous pouvez trouver le code et les explications du projet sur Github:
@@ -40,14 +41,13 @@ const AboutPage = (): JSX.Element => {
           <ul className="list-disc list-inside">
             <li>Frontend: Next/React, Typescript, TailwindCSS</li>
             <li>Backend: Node, Express, Mongoose, MongoDB</li>
-            <li>API: Python, Django Rest Framework </li>
             <li>Authentification: JWT</li>
             <li>
               Tests, Clean Code: Jest, React Testing Library, ESlint, Prettier
             </li>
             <li>
-              CI/CD, Hosting et Divers: Github Actions, Docker, Vercel, AWS,
-              Heroku
+              CI/CD, Hosting et Divers: Github Actions, Docker, Vercel, MongoDB
+              Atlas, ...
             </li>
           </ul>
         </div>

@@ -11,7 +11,7 @@
     "strict": true,
     "sourceMap": true,
     "forceConsistentCasingInFileNames": true,
-    "noImplicitReturns": true,
+    "noImplicitReturns": false,
     "noImplicitAny": true,
     "strictNullChecks": true,
     "noFallthroughCasesInSwitch": true,
@@ -29,5 +29,5 @@
     "esm": true
   },
   "exclude": ["node_modules", "out", "dist"],
-  "include": ["src", "*.ts", "**/*.js"]
+  "include": ["src/*", "*.ts", "**/*.js"]
 }

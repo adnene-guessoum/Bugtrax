@@ -19,15 +19,6 @@ const Navbar = (): JSX.Element => {
           </li>
           <li className="mr-3">
             <Link
-              href="/dashboard"
-              data-testid="dashboard-link"
-              className="inline-block py-2 px-4 text-gray-900 hover:text-gray-700 no-underline"
-            >
-              Dashboard
-            </Link>
-          </li>
-          <li className="mr-3">
-            <Link
               href="/about"
               data-testid="about-link"
               className="inline-block py-2 px-4 text-gray-900 hover:text-gray-700 no-underline"

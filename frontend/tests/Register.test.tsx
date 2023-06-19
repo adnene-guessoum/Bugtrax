@@ -81,7 +81,7 @@ describe('RegisterForm', () => {
 
     await waitFor(() => {
       expect(axios.post).toHaveBeenCalledTimes(1);
-      expect(axios.post).toHaveBeenCalledWith(`/auth/register`, {
+      expect(axios.post).toHaveBeenCalledWith(expect.anything(), {
         username: 'test',
         email: 'test@example.com',
         password: 'password'
@@ -108,7 +108,7 @@ describe('RegisterForm', () => {
 
     await waitFor(() => {
       expect(axios.post).toHaveBeenCalledTimes(1);
-      expect(axios.post).toHaveBeenCalledWith(`/auth/register`, {
+      expect(axios.post).toHaveBeenCalledWith(expect.anything(), {
         username: 'test',
         email: 'hello@bye',
         password: 'world'

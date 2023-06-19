@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { IUser } from './User.ts';
+import { IUser } from './user.ts';
 
 export interface TicketDocument extends mongoose.Document {
   user: IUser['_id'];
