@@ -10,12 +10,12 @@ import {
 
 const router: express.Router = express.Router();
 
-router.get('/', auth as any, handleGetUser as any);
 router.post(
   '/register',
   validateUserRegistration,
   handleUserRegistration as any
 );
 router.post('/login', validateUserLogin, handleUserLogin as any);
+router.get('/authCheck', auth as any, handleGetUser as any);
 
 export default router;

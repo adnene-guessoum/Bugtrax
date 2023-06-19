@@ -18,6 +18,7 @@ const LoginForm = () => {
   const loginSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
+      console.log('loginSubmit', user, process.env.NEXT_PUBLIC_BACKEND_URL);
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}api/users/login`,
         {
@@ -25,6 +26,7 @@ const LoginForm = () => {
           password: user.password
         }
       );
+      console.log('res', res);
       setUser({ name: '', email: '', password: '' });
       localStorage.setItem('token', res.data.token);
       setIsLoggedIn(true);

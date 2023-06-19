@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 dotenv.config({ path: '../.env' });
@@ -21,6 +22,7 @@ mongoose
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch(err => console.log(err));
 
+app.use(cors());
 app.use(express.json());
 
 app.use('/api/users', userRouter);
