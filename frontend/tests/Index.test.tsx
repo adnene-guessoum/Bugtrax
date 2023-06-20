@@ -5,17 +5,10 @@ import { render, screen } from '@testing-library/react';
 import IndexPage from '../pages/index';
 import axios from 'axios';
 import { waitFor } from '@testing-library/dom';
-import { act } from 'react-dom/test-utils';
 
 jest.mock('axios', () => ({
   post: jest.fn()
 }));
-
-const localStorageMock = {
-  getItem: jest.fn()
-};
-
-global.localStorage = localStorageMock;
 
 describe('IndexPage', () => {
   it('renders the general elements of the layout', () => {
