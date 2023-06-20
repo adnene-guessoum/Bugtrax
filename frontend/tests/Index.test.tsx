@@ -3,6 +3,20 @@
  */
 import { render, screen } from '@testing-library/react';
 import IndexPage from '../pages/index';
+import axios from 'axios';
+import { waitFor } from '@testing-library/dom';
+import { act } from 'react-dom/test-utils';
+
+jest.mock('axios', () => ({
+  post: jest.fn()
+}));
+
+const localStorageMock = {
+  getItem: jest.fn()
+};
+
+global.localStorage = localStorageMock;
+
 describe('IndexPage', () => {
   it('renders the general elements of the layout', () => {
     render(<IndexPage />);
@@ -30,5 +44,37 @@ describe('IndexPage', () => {
     expect(screen.getByTestId('register-link')).toHaveTextContent("S'inscrire");
     expect(screen.getByTestId('home-link')).toHaveTextContent('Accueil');
     expect(screen.getByTestId('footer-link')).toHaveAttribute('href', '/');
+  });
+
+  it('renders the profile content when logged in', async () => {
+    const mockCheckResponse = {
+      data: {
+        user: {
+          id: 1,
+          firstName: 'John',
+          lastName: 'Doe'
+        }
+      }
+    };
+
+    axios.post = jest.fn().mockResolvedValue(mockCheckResponse);
+
+    render(<IndexPage />);
+
+    waitFor(() => {
+      expect(screen.getByTestId('profile')).toBeInTheDocument();
+    });
+  });
+
+  it('renders the redirect page when not logged in', async () => {
+    const mockCheckResponse = {};
+
+    axios.post = jest.fn().mockResolvedValue(mockCheckResponse);
+
+    render(<IndexPage />);
+
+    waitFor(() => {
+      expect(screen.getByTestId('accueil-redirect')).toBeInTheDocument();
+    });
   });
 });

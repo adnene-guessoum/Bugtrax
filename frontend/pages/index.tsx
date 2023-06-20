@@ -1,32 +1,44 @@
-import React from 'react';
-import Link from 'next/link';
-import Layout from '../components/Layout';
+import AccueilRedirect from '../components/AccueilRedirect';
+import Profile from '../components/Profile';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const IndexPage = (): JSX.Element => {
-  return (
-    <Layout>
-      <div className="flex flex-col gap-4 justify-center items-center mt-12">
-        <h2 className="underline font-semibold text-2xl">
-          Veuillez vous connecter
-        </h2>
-        <Link href="/login">
-          <div>
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-              Connexion
-            </button>
-          </div>
-        </Link>
+  const [validToken, setValidToken] = useState<boolean>(false);
 
-        <Link href="/register">
-          <div>
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-              Inscription
-            </button>
-          </div>
-        </Link>
-      </div>
-    </Layout>
-  );
+  useEffect(() => {
+    const checkToken = async () => {
+      const token = localStorage.getItem('token');
+
+      if (token) {
+        const checkResponse = await axios.post(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/authCheck`,
+          { localToken: token }
+        );
+
+        console.log(checkResponse);
+
+        if (!checkResponse.data) {
+          setValidToken(false);
+        } else {
+          setValidToken(true);
+        }
+      }
+    };
+    checkToken();
+  }, []);
+
+  /* comment: set token to see other render
+  useEffect(() => {
+    setValidToken(true);
+  }, []);
+	*/
+
+  if (validToken) {
+    return <Profile />;
+  } else {
+    return <AccueilRedirect />;
+  }
 };
 
 export default IndexPage;
