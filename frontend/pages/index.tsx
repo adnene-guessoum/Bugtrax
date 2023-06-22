@@ -9,7 +9,7 @@ const IndexPage = (): JSX.Element => {
 
   useEffect(() => {
     try {
-      const checkToken = async () => {
+      const checkUser = async () => {
         const token = localStorage.getItem('token');
 
         if (token) {
@@ -22,13 +22,14 @@ const IndexPage = (): JSX.Element => {
 
           if (!checkResponse.data) {
             setValidToken(false);
+            localStorage.removeItem('token');
           } else {
             setValidToken(true);
             setUser(checkResponse.data);
           }
         }
       };
-      checkToken();
+      checkUser();
     } catch (error: any) {
       console.log(error);
     }

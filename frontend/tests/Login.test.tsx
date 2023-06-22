@@ -8,11 +8,16 @@ import { act } from 'react-dom/test-utils';
 import userEvent from '@testing-library/user-event';
 import axios from 'axios';
 import LoginPage from '../pages/login';
-import LoginForm from '../components/LoginForm';
+import LoginForm from '../components/Forms/LoginForm';
 
-// mock window.alert to prevent not implemented error from jsdom
+// mocks
 window.alert = jest.fn();
 jest.mock('axios');
+jest.mock('next/router', () => ({
+  useRouter: jest.fn().mockReturnValue({
+    push: jest.fn()
+  })
+}));
 
 describe('LoginPage', () => {
   beforeEach(() => {

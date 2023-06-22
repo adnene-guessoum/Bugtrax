@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useRouter } from 'next/router';
 
 const RegisterForm = (): JSX.Element => {
   const [user, setUser] = useState({ username: '', email: '', password: '' });
   const [error, setError] = useState('');
+  const router = useRouter();
 
   const registerSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -13,6 +15,7 @@ const RegisterForm = (): JSX.Element => {
         user
       );
       alert('Vous êtes inscrit');
+      router.push('/login');
     } catch (err) {
       setError("une erreur est survenue lors de l'inscription");
       alert("Une erreur est survenue lors de l'inscription (client)");

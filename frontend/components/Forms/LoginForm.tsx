@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useRouter } from 'next/router';
 
 const LoginForm = () => {
   const [user, setUser] = useState({ name: '', email: '', password: '' });
   const [error, setError] = useState('');
+  const router = useRouter();
 
   const loginSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -18,8 +20,11 @@ const LoginForm = () => {
       setUser({ name: '', email: '', password: '' });
       localStorage.setItem('token', res.data.token);
       alert('Vous êtes connecté');
+      router.push('/');
     } catch (err) {
-      setError(`une erreur est survenue lors de l'authentification ${err}`);
+      setError(
+        `une erreur est survenue lors de l'authentification. Vérifiez que votre email et votre mot de passe sont corrects et que vous êtes bien inscrit`
+      );
       alert("Vous n'êtes pas connecté");
     }
   };
