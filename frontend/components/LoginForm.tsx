@@ -4,43 +4,22 @@ import axios from 'axios';
 const LoginForm = () => {
   const [user, setUser] = useState({ name: '', email: '', password: '' });
   const [error, setError] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  /*
-  let BackendUrl;
-  if (process.env.NEXT_PUBLIC_ENVIRONMENT !== 'prod') {
-    BackendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
-  } else {
-    BackendUrl = process.env.NEXT_PUBLIC_BACKEND_URL_PROD;
-  }
-*/
 
   const loginSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      console.log('loginSubmit', user, process.env.NEXT_PUBLIC_BACKEND_URL);
       const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}api/users/login`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/login`,
         {
           email: user.email,
           password: user.password
         }
       );
-      console.log('res', res);
       setUser({ name: '', email: '', password: '' });
       localStorage.setItem('token', res.data.token);
-      setIsLoggedIn(true);
-      alertLogin();
-    } catch (err) {
-      setError("une erreur est survenue lors de l'authentification");
-      alertLogin();
-    }
-  };
-
-  const alertLogin = () => {
-    if (isLoggedIn) {
       alert('Vous êtes connecté');
-    } else {
+    } catch (err) {
+      setError(`une erreur est survenue lors de l'authentification ${err}`);
       alert("Vous n'êtes pas connecté");
     }
   };

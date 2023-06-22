@@ -28,6 +28,7 @@ export const auth = function (
       process.env.JWT_SECRET as Secret
     ) as JwtPayload;
     req.user = decoded.user;
+    console.log('decoded.user :', decoded.user);
     next();
   } catch (error) {
     return res.status(500).send({

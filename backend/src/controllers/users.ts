@@ -16,6 +16,11 @@ const validateUserRegistration = [
   ).isLength({ min: 6 })
 ];
 
+const validateUserLogin = [
+  check('email', 'Veuillez entrer un email valide').isEmail(),
+  check('password', 'Veuillez entrer un mot de passe valide').exists()
+];
+
 const DbCheckEmailAlreadyExists = async (email: string) => {
   const user: IUser | null = await User.findOne({ email });
   if (user) {
@@ -59,6 +64,30 @@ const DbUserCheckRegistration = async (
   }
 };
 
+const DbUserMatchCheck = async (
+  email: string,
+  password: string,
+  res: Response
+) => {
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    return res.status(400).json({
+      errors: [{ msg: 'Email invalide (absent de la base de données)' }]
+    });
+  }
+
+  const isMatch = await bcrypt.compare(password, user.motDePasse);
+
+  if (!isMatch) {
+    return res.status(400).json({
+      errors: [{ msg: 'Mot de passe invalide (pas le bon mot de passe)' }]
+    });
+  }
+
+  sendJwtToken(user, res);
+};
+
 const DbCreateUser = async (
   username: string,
   email: string,
@@ -91,33 +120,51 @@ const handleUserRegistration = async (req: Request, res: Response) => {
     DbUserCheckRegistration(username, email, res);
   } catch (err: any) {
     console.error(err.message);
-    res.status(500).send('Erreur serveur lors de la vérification des données');
+    return res
+      .status(500)
+      .send(`Erreur serveur lors de la vérification des données : ${err}`);
   }
 
   try {
     DbCreateUser(username, email, password, res);
   } catch (err: any) {
     console.error(err.message);
-    res.status(500).send("Erreur serveur lors de la création de l'utilisateur");
+    return res
+      .status(500)
+      .send(`Erreur serveur lors de la création de l'utilisateur : ${err}`);
   }
 };
 
 const handleGetUser = async (req: Request & { user: any }, res: Response) => {
   try {
     const user = await User.findById(req.user.id).select('-password');
-    res.json(user);
+    return res.json(user);
   } catch (err: any) {
     console.error(err.message);
-    res
+    return res
       .status(500)
-      .send("Erreur serveur lors de la récupération de l'utilisateur");
+      .send(`Erreur serveur lors de la récupération de l'utilisateur: ${err}`);
   }
 };
 
-const validateUserLogin = [
-  check('email', 'Veuillez entrer un email valide').isEmail(),
-  check('password', 'Veuillez entrer un mot de passe valide').exists()
-];
+const handleUserLogin = async (req: Request & { user: any }, res: Response) => {
+  const { email, password } = req.body;
+  const validationErrors = validationResult(req);
+  if (!validationErrors.isEmpty()) {
+    return res.status(400).json({ errors: validationErrors.array() });
+  }
+
+  try {
+    const resultMatchCheck = DbUserMatchCheck(email, password, res);
+    return resultMatchCheck;
+  } catch (err: any) {
+    console.log(
+      'erreur serveur lors de la vérification des données DbUserMatchCheck'
+    );
+    console.error(err.message);
+    return res.status(500).send("Erreur serveur lors de l'authentification");
+  }
+};
 
 const sendJwtToken = (user: IUser, res: Response) => {
   const payload = {
@@ -135,45 +182,6 @@ const sendJwtToken = (user: IUser, res: Response) => {
       res.json({ token });
     }
   );
-};
-
-const DbUserMatchCheck = async (
-  email: string,
-  password: string,
-  res: Response
-) => {
-  const user = await User.findOne({ email });
-
-  if (!user) {
-    return res.status(400).json({
-      errors: [{ msg: 'Email invalide (absent de la base de données)' }]
-    });
-  }
-
-  const isMatch = await bcrypt.compare(password, user.motDePasse);
-
-  if (!isMatch) {
-    return res.status(400).json({
-      errors: [{ msg: 'Mot de passe invalide (pas le bon mot de passe)' }]
-    });
-  }
-
-  sendJwtToken(user, res);
-};
-
-const handleUserLogin = async (req: Request & { user: any }, res: Response) => {
-  const { email, password } = req.body;
-  const validationErrors = validationResult(req);
-  if (!validationErrors.isEmpty()) {
-    return res.status(400).json({ errors: validationErrors.array() });
-  }
-
-  try {
-    DbUserMatchCheck(email, password, res);
-  } catch (err: any) {
-    console.error(err.message);
-    res.status(500).send("Erreur serveur lors de l'authentification");
-  }
 };
 
 export {

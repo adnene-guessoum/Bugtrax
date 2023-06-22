@@ -30,6 +30,8 @@ services:
         - "back-container:dev"
     ports:
       - 8000:8000
+    environment:
+      - MONGODB_URI=mongodb://admin-user:admin-password@mongodb:27017/test-database?authSource=admin
     env_file:
       - ./backend/.env
     volumes:

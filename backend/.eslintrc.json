@@ -18,7 +18,10 @@
   },
   "rules": {
     "node/no-unsupported-features/es-syntax": 0,
-    "node/no-unpublished-import": ["error", { "allowModules": ["supertest"] }],
+    "node/no-unpublished-import": [
+      "error",
+      { "allowModules": ["supertest", "axios"] }
+    ],
     "@typescript-eslint/explicit-member-accessibility": ["error"],
     "@typescript-eslint/no-explicit-any": 0,
     "@typescript-eslint/no-use-before-define": 0,

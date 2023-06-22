@@ -16,6 +16,6 @@ router.post(
   handleUserRegistration as any
 );
 router.post('/login', validateUserLogin, handleUserLogin as any);
-router.get('/authCheck', auth as any, handleGetUser as any);
+router.get('/', auth as any, handleGetUser as any);
 
 export default router;

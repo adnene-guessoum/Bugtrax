@@ -4,7 +4,6 @@ import axios from 'axios';
 const RegisterForm = (): JSX.Element => {
   const [user, setUser] = useState({ username: '', email: '', password: '' });
   const [error, setError] = useState('');
-  const [isRegistered, setIsRegistered] = useState(false);
 
   const registerSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -13,11 +12,10 @@ const RegisterForm = (): JSX.Element => {
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/register`,
         user
       );
-      setIsRegistered(true);
-      alertRegister();
+      alert('Vous êtes inscrit');
     } catch (err) {
       setError("une erreur est survenue lors de l'inscription");
-      alertRegister();
+      alert("Une erreur est survenue lors de l'inscription (client)");
     }
   };
 
@@ -25,14 +23,6 @@ const RegisterForm = (): JSX.Element => {
     const { id, value } = e.target;
     setUser({ ...user, [id]: value });
     setError('');
-  };
-
-  const alertRegister = () => {
-    if (isRegistered) {
-      alert('Vous êtes inscrit');
-    } else {
-      alert("Une erreur est survenue lors de l'inscription");
-    }
   };
 
   return (

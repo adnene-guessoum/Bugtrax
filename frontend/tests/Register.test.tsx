@@ -115,7 +115,7 @@ describe('RegisterForm', () => {
       });
       expect(window.alert).toHaveBeenCalledTimes(1);
       expect(window.alert).toHaveBeenCalledWith(
-        "Une erreur est survenue lors de l'inscription"
+        "Une erreur est survenue lors de l'inscription (client)"
       );
     });
   });
