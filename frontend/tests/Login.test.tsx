@@ -34,10 +34,10 @@ describe('LoginPage', () => {
     expect(emailField).toBeInTheDocument();
     expect(passwordField).toBeInTheDocument();
   });
-  it('should render the login form with submit buttons (JWT and google)', () => {
+  it('should render the login form with submit buttons (JWT and invité)', () => {
     const submitButton = screen.getByTestId('submit-button-login');
     expect(submitButton).toBeInTheDocument();
-    const submitButtonGoogle = screen.getByTestId('submit-google');
+    const submitButtonGoogle = screen.getByTestId('submit-invité');
     expect(submitButtonGoogle).toBeInTheDocument();
   });
   it('should render the login form with a link to the register page', () => {

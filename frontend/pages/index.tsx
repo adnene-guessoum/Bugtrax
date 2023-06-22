@@ -1,5 +1,5 @@
 import AccueilRedirect from '../components/AccueilRedirect';
-import Profile from '../components/Profile';
+import AccueilEspaceUtilisateur from '../components/AccueilEspaceUtilisateur';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -42,7 +42,7 @@ const IndexPage = (): JSX.Element => {
 	*/
 
   if (validToken) {
-    return <Profile user={user} />;
+    return <AccueilEspaceUtilisateur user={user} />;
   } else {
     return <AccueilRedirect />;
   }
