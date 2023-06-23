@@ -35,12 +35,6 @@ const IndexPage = (): JSX.Element => {
     }
   }, []);
 
-  /* comment: set token to see other render
-  useEffect(() => {
-    setValidToken(true);
-  }, []);
-	*/
-
   if (validToken) {
     return <AccueilEspaceUtilisateur user={user} />;
   } else {
