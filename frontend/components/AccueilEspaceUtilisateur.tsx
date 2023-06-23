@@ -1,5 +1,7 @@
 import React from 'react';
 import ProfileBanner from './trackerComponents/ProfileBanner';
+import CreateTicket from './trackerComponents/CreateTicket';
+import ShowTickets from './trackerComponents/ShowTickets';
 
 const AccueilEspaceUtilisateur = ({ user }): JSX.Element => {
   const initialState = {
@@ -89,11 +91,7 @@ const AccueilEspaceUtilisateur = ({ user }): JSX.Element => {
         id="tickets"
       >
         <h1 className="text-2xl">Mes tickets</h1>
-        <ul className="flex flex-col justify-center items-center gap-2">
-          <li>ticket 1</li>
-          <li>ticket 2</li>
-          <li>ticket 3</li>
-        </ul>
+        <ShowTickets user={user} />
       </div>
       <div
         className={`flex flex-col justify-center items-center gap-2 ${
@@ -103,10 +101,7 @@ const AccueilEspaceUtilisateur = ({ user }): JSX.Element => {
         id="addTicket"
       >
         <h1 className="text-2xl">Ajouter un ticket</h1>
-        <ul className="flex flex-col justify-center items-center gap-2">
-          <li>ticket 1</li>
-          <li>ticket 2</li>
-        </ul>
+        <CreateTicket />
       </div>
     </>
   );
