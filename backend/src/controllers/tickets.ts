@@ -1,7 +1,6 @@
 /*
  * controllers tickets routes
  */
-
 import { Response, Request } from 'express';
 import Ticket, { TicketDocument } from '../models/tickets.ts';
 import { validationResult } from 'express-validator';
