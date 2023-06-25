@@ -5,7 +5,11 @@ import axios from 'axios';
 
 const IndexPage = (): JSX.Element => {
   const [validToken, setValidToken] = useState<boolean>(false);
-  const [user, setUser] = useState({ name: '', email: '', password: '' });
+  const [user, setUser] = useState({
+    nomUtilisateur: '',
+    email: '',
+    motDePasse: ''
+  });
 
   useEffect(() => {
     try {

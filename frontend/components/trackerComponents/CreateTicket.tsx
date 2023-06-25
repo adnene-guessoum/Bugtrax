@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
 const CreateTicket = () => {
   const [error, setError] = useState('');
@@ -6,24 +7,27 @@ const CreateTicket = () => {
     nomTicket: '',
     description: '',
     etat: '',
-    dateCreation: '',
-    prorite: '',
+    priorite: '',
     tempsEstime: '',
-    tempsPasse: ''
+    tempsPasse: '',
+    dateCreation: Date.now()
   });
 
   const submitTicket = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
+      const token = localStorage.getItem('token');
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/tickets`,
-        ticket
+        ticket,
+        { headers: { 'x-access-token': token } }
       );
-      const data = await res.json();
-      console.log(data);
+      console.log(res);
+      alert('Ticket créé !');
     } catch (err) {
-      setError(err.response.data.message);
+      setError(err);
       console.log(err);
+      alert(err);
     }
   };
 
@@ -95,22 +99,22 @@ const CreateTicket = () => {
               </div>
               <div>
                 <input
-                  type="time"
+                  type="number"
                   data-testid="tempsEstime-field"
                   id="tempsEstime"
                   className="bg-gray-300 border border-black p-1"
-                  placeholder="Temps estimé"
+                  placeholder="en heures (0.5 = 30 minutes)"
                   value={ticket.tempsEstime}
                   onChange={handleChangeInput}
                 />
               </div>
               <div>
                 <input
-                  type="time"
+                  type="number"
                   data-testid="tempsPasse-field"
                   id="tempsPasse"
                   className="bg-gray-300 border border-black p-1"
-                  placeholder="Temps passé"
+                  placeholder="en heures (0.5 = 30 minutes)"
                   value={ticket.tempsPasse}
                   onChange={handleChangeInput}
                 />
@@ -125,7 +129,7 @@ const CreateTicket = () => {
             Soumettre
           </button>
           <div className="flex justify-center">
-            {error && <span className="text-red-500">{error}</span>}
+            {<span className="text-red-500">{error}</span>}
           </div>
         </div>
       </form>

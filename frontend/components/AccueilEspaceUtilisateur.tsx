@@ -2,15 +2,15 @@ import React from 'react';
 import ProfileBanner from './trackerComponents/ProfileBanner';
 import CreateTicket from './trackerComponents/CreateTicket';
 import ShowTickets from './trackerComponents/ShowTickets';
+import { IUser } from '../types/custom.d';
+import { format } from 'date-fns';
 
-const AccueilEspaceUtilisateur = ({ user }): JSX.Element => {
+const AccueilEspaceUtilisateur: React.FC<{ user: IUser }> = ({ user }) => {
   const initialState = {
     profile: true,
     tickets: true,
     addTicket: true
   };
-
-  console.log(user);
 
   const [hidden, setHidden] = React.useState(initialState);
 
@@ -80,7 +80,7 @@ const AccueilEspaceUtilisateur = ({ user }): JSX.Element => {
           <li>{user.nomUtilisateur}</li>
           <li>{user.email}</li>
           <li>{user.role}</li>
-          <li>{user.dateCreation}</li>
+          <li>{format(user.dateCreation, 'dd-MM-yyyy')}</li>
         </ul>
       </div>
       <div
@@ -101,7 +101,7 @@ const AccueilEspaceUtilisateur = ({ user }): JSX.Element => {
         id="addTicket"
       >
         <h1 className="text-2xl">Ajouter un ticket</h1>
-        <CreateTicket user={user} />
+        <CreateTicket />
       </div>
     </>
   );
