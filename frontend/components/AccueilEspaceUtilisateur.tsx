@@ -101,7 +101,7 @@ const AccueilEspaceUtilisateur = ({ user }): JSX.Element => {
         id="addTicket"
       >
         <h1 className="text-2xl">Ajouter un ticket</h1>
-        <CreateTicket />
+        <CreateTicket user={user} />
       </div>
     </>
   );
