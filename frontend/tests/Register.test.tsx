@@ -29,8 +29,8 @@ describe('RegisterPage', () => {
   it('should render the register form with username, email and password fields', () => {
     render(<RegisterPage />);
     const emailField = screen.getByTestId('email-field-register');
-    const passwordField = screen.getByTestId('password-field-register');
-    const usernameField = screen.getByTestId('username-field-register');
+    const passwordField = screen.getByTestId('motDePasse-field-register');
+    const usernameField = screen.getByTestId('nomUtilisateur-field-register');
     expect(emailField).toBeInTheDocument();
     expect(passwordField).toBeInTheDocument();
     expect(usernameField).toBeInTheDocument();
@@ -72,9 +72,9 @@ describe('RegisterForm', () => {
 
     (axios.post as jest.Mock).mockResolvedValueOnce(mockResponse);
 
-    const usernameField = screen.getByTestId('username-field-register');
+    const usernameField = screen.getByTestId('nomUtilisateur-field-register');
     const emailField = screen.getByTestId('email-field-register');
-    const passwordField = screen.getByTestId('password-field-register');
+    const passwordField = screen.getByTestId('motDePasse-field-register');
     const submitButton = screen.getByTestId('submit-button-register');
 
     await act(async () => {
@@ -87,9 +87,9 @@ describe('RegisterForm', () => {
     await waitFor(() => {
       expect(axios.post).toHaveBeenCalledTimes(1);
       expect(axios.post).toHaveBeenCalledWith(expect.anything(), {
-        username: 'test',
+        nomUtilisateur: 'test',
         email: 'test@example.com',
-        password: 'password'
+        motDePasse: 'password'
       });
     });
   });
@@ -99,9 +99,9 @@ describe('RegisterForm', () => {
       new Error("Une erreur est survenue lors de l'inscription")
     );
 
-    const usernameField = screen.getByTestId('username-field-register');
+    const usernameField = screen.getByTestId('nomUtilisateur-field-register');
     const emailField = screen.getByTestId('email-field-register');
-    const passwordField = screen.getByTestId('password-field-register');
+    const passwordField = screen.getByTestId('motDePasse-field-register');
     const submitButton = screen.getByTestId('submit-button-register');
 
     await act(async () => {
@@ -114,9 +114,9 @@ describe('RegisterForm', () => {
     await waitFor(() => {
       expect(axios.post).toHaveBeenCalledTimes(1);
       expect(axios.post).toHaveBeenCalledWith(expect.anything(), {
-        username: 'test',
+        nomUtilisateur: 'test',
         email: 'hello@bye',
-        password: 'world'
+        motDePasse: 'world'
       });
       expect(window.alert).toHaveBeenCalledTimes(1);
       expect(window.alert).toHaveBeenCalledWith(

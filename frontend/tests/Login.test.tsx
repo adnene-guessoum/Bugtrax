@@ -30,7 +30,7 @@ describe('LoginPage', () => {
   });
   it('should render the login form with email and password fields', () => {
     const emailField = screen.getByTestId('email-field');
-    const passwordField = screen.getByTestId('password-field');
+    const passwordField = screen.getByTestId('motDePasse-field');
     expect(emailField).toBeInTheDocument();
     expect(passwordField).toBeInTheDocument();
   });
@@ -81,7 +81,7 @@ describe('LoginForm', () => {
     (axios.post as jest.Mock).mockResolvedValueOnce(mockResponse);
 
     const emailField = screen.getByTestId('email-field');
-    const passwordField = screen.getByTestId('password-field');
+    const passwordField = screen.getByTestId('motDePasse-field');
     const submitButton = screen.getByTestId('submit-button-login');
 
     await act(async () => {
@@ -94,7 +94,7 @@ describe('LoginForm', () => {
       expect(axios.post).toHaveBeenCalledTimes(1);
       expect(axios.post).toHaveBeenCalledWith(expect.anything(), {
         email: 'test@example.com',
-        password: 'password'
+        motDePasse: 'password'
       });
     });
   });
@@ -105,7 +105,7 @@ describe('LoginForm', () => {
     );
 
     const emailField = screen.getByTestId('email-field');
-    const passwordField = screen.getByTestId('password-field');
+    const passwordField = screen.getByTestId('motDePasse-field');
     const submitButton = screen.getByTestId('submit-button-login');
 
     await act(async () => {
@@ -118,7 +118,7 @@ describe('LoginForm', () => {
       expect(axios.post).toHaveBeenCalledTimes(1);
       expect(axios.post).toHaveBeenCalledWith(expect.anything(), {
         email: 'hello@bye',
-        password: 'world'
+        motDePasse: 'world'
       });
       expect(window.alert).toHaveBeenCalledTimes(1);
       expect(window.alert).toHaveBeenCalledWith("Vous n'êtes pas connecté");

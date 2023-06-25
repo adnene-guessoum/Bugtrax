@@ -3,7 +3,10 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 
 const LoginForm = () => {
-  const [user, setUser] = useState({ name: '', email: '', password: '' });
+  const [user, setUser] = useState({
+    email: '',
+    motDePasse: ''
+  });
   const [error, setError] = useState('');
   const router = useRouter();
 
@@ -14,10 +17,10 @@ const LoginForm = () => {
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/login`,
         {
           email: user.email,
-          password: user.password
+          motDePasse: user.motDePasse
         }
       );
-      setUser({ name: '', email: '', password: '' });
+      setUser({ email: '', motDePasse: '' });
       localStorage.setItem('token', res.data.token);
       alert('Vous êtes connecté');
       router.push('/');
@@ -42,14 +45,13 @@ const LoginForm = () => {
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/login`,
         {
           email: 'invite@mail.com',
-          password: 'invite'
+          motDePasse: 'invite'
         }
       );
       localStorage.setItem('token', res.data.token);
       alert("Vous êtes connecté en tant qu'invité");
       router.push('/');
     } catch (err) {
-      console.log('error');
       console.log(err);
       console.log(
         `une erreur est survenue lors de l'authentification. Veuillez-nous excuser pour la gêne occasionnée`
@@ -65,7 +67,7 @@ const LoginForm = () => {
           <div className="flex p-2 gap-8 border border-black">
             <fieldset className="flex flex-col justify-around gap-2">
               <label htmlFor="email">Votre addresse mail :</label>
-              <label htmlFor="password">Mot de Passe :</label>
+              <label htmlFor="motDePasse">Mot de Passe :</label>
             </fieldset>
 
             <fieldset className="flex flex-col justify-around gap-2">
@@ -83,11 +85,11 @@ const LoginForm = () => {
               <div>
                 <input
                   type="password"
-                  data-testid="password-field"
-                  id="password"
+                  data-testid="motDePasse-field"
+                  id="motDePasse"
                   className="bg-gray-300 border border-black p-1"
                   placeholder="********"
-                  value={user.password}
+                  value={user.motDePasse}
                   autoComplete="true"
                   onChange={handleChangeInput}
                 />

@@ -3,7 +3,11 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 
 const RegisterForm = (): JSX.Element => {
-  const [user, setUser] = useState({ username: '', email: '', password: '' });
+  const [user, setUser] = useState({
+    nomUtilisateur: '',
+    email: '',
+    motDePasse: ''
+  });
   const [error, setError] = useState('');
   const router = useRouter();
 
@@ -33,20 +37,20 @@ const RegisterForm = (): JSX.Element => {
       <div className="flex flex-col p-2 gap-2 border border-black">
         <div className="flex p-2 gap-8 border border-black">
           <fieldset className="flex flex-col justify-around gap-2">
-            <label htmlFor="username">Nom d&apos;utilisateur :</label>
+            <label htmlFor="nomUtilisateur">Nom d&apos;utilisateur :</label>
             <label htmlFor="email">Email :</label>
-            <label htmlFor="password">Mot de Passe :</label>
+            <label htmlFor="motDePasse">Mot de Passe :</label>
           </fieldset>
 
           <fieldset className="flex flex-col justify-around gap-2">
             <div>
               <input
                 type="text"
-                data-testid="username-field-register"
-                id="username"
+                data-testid="nomUtilisateur-field-register"
+                id="nomUtilisateur"
                 className="bg-gray-300 border border-black p-1"
                 placeholder="John Doe"
-                value={user.username}
+                value={user.nomUtilisateur}
                 onChange={handleChangeInput}
               />
             </div>
@@ -64,11 +68,11 @@ const RegisterForm = (): JSX.Element => {
             <div>
               <input
                 type="password"
-                data-testid="password-field-register"
-                id="password"
+                data-testid="motDePasse-field-register"
+                id="motDePasse"
                 className="bg-gray-300 border border-black p-1"
                 placeholder="********"
-                value={user.password}
+                value={user.motDePasse}
                 onChange={handleChangeInput}
               />
             </div>
