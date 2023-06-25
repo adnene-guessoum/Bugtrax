@@ -4,6 +4,7 @@ import CreateTicket from './trackerComponents/CreateTicket';
 import ShowTickets from './trackerComponents/ShowTickets';
 import { IUser } from '../types/custom.d';
 import { format } from 'date-fns';
+import { fr } from 'date-fns/locale';
 
 const AccueilEspaceUtilisateur: React.FC<{ user: IUser }> = ({ user }) => {
   const initialState = {
@@ -13,6 +14,16 @@ const AccueilEspaceUtilisateur: React.FC<{ user: IUser }> = ({ user }) => {
   };
 
   const [hidden, setHidden] = React.useState(initialState);
+
+  const dateFormatter = (date: Date) => {
+    const dateObject = new Date(date);
+    const dateFormated = format(dateObject, 'dd MMMM yyyy', {
+      locale: fr
+    });
+    return dateFormated;
+  };
+
+  const dateInscription = dateFormatter(user.dateCreation);
 
   const handleClick = e => {
     const section = e.target.getAttribute('data-section');
@@ -69,9 +80,8 @@ const AccueilEspaceUtilisateur: React.FC<{ user: IUser }> = ({ user }) => {
         </ul>
       </nav>
       <div
-        className={`flex flex-col justify-center items-center gap-2 ${
-          hidden.profile ? 'hidden' : ''
-        }`}
+        className={`flex flex-col border-black border-2 p-4 m-4
+				justify-center items-center gap-2 ${hidden.profile ? 'hidden' : ''}`}
         data-testid="profile-section"
         id="profile"
       >
@@ -80,13 +90,12 @@ const AccueilEspaceUtilisateur: React.FC<{ user: IUser }> = ({ user }) => {
           <li>{user.nomUtilisateur}</li>
           <li>{user.email}</li>
           <li>{user.role}</li>
-          <li>{format(user.dateCreation, 'dd-MM-yyyy')}</li>
+          <li>{dateInscription}</li>
         </ul>
       </div>
       <div
-        className={`flex flex-col justify-center items-center gap-2 ${
-          hidden.tickets ? 'hidden' : ''
-        }`}
+        className={`flex flex-col border-black border-2 p-4 m-4
+				justify-center items-center gap-2 ${hidden.tickets ? 'hidden' : ''}`}
         data-testid="tickets-section"
         id="tickets"
       >
@@ -94,9 +103,8 @@ const AccueilEspaceUtilisateur: React.FC<{ user: IUser }> = ({ user }) => {
         <ShowTickets user={user} />
       </div>
       <div
-        className={`flex flex-col justify-center items-center gap-2 ${
-          hidden['addTicket'] ? 'hidden' : ''
-        }`}
+        className={`flex flex-col border-black border-2 p-4 m-4
+				justify-center items-center gap-2 ${hidden['addTicket'] ? 'hidden' : ''}`}
         data-testid="add-ticket-section"
         id="addTicket"
       >
