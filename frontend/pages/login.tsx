@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import LoginForm from '../components/LoginForm';
+import LoginForm from '../components/Forms/LoginForm';
 import Layout from '../components/Layout';
 
 const LoginPage = (): JSX.Element => {

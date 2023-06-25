@@ -4,15 +4,20 @@
 
 import { render, screen } from '@testing-library/react';
 import RegisterPage from '../pages/register';
-import RegisterForm from '../components/RegisterForm';
+import RegisterForm from '../components/Forms/RegisterForm';
 import userEvent from '@testing-library/user-event';
 import axios from 'axios';
 import { act } from 'react-dom/test-utils';
 import { waitFor } from '@testing-library/dom';
 
-// mock window.alert to prevent not implemented error from jsdom
+// mocks
 window.alert = jest.fn();
 jest.mock('axios');
+jest.mock('next/router', () => ({
+  useRouter: jest.fn().mockReturnValue({
+    push: jest.fn()
+  })
+}));
 
 describe('RegisterPage', () => {
   it('should render the register form', () => {
@@ -115,7 +120,7 @@ describe('RegisterForm', () => {
       });
       expect(window.alert).toHaveBeenCalledTimes(1);
       expect(window.alert).toHaveBeenCalledWith(
-        "Une erreur est survenue lors de l'inscription"
+        "Une erreur est survenue lors de l'inscription (client)"
       );
     });
   });
