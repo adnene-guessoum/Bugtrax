@@ -24,7 +24,7 @@ const IndexPage = (): JSX.Element => {
 
           console.log(checkResponse);
 
-          if (!checkResponse.data) {
+          if (checkResponse.data.auth === false) {
             setValidToken(false);
             localStorage.removeItem('token');
           } else {

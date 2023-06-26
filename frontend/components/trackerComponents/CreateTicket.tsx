@@ -24,6 +24,15 @@ const CreateTicket = () => {
       );
       console.log(res);
       alert('Ticket créé !');
+      setTicket({
+        nomTicket: '',
+        description: '',
+        etat: '',
+        priorite: '',
+        tempsEstime: '',
+        tempsPasse: '',
+        dateCreation: Date.now()
+      });
     } catch (err) {
       setError(err);
       console.log(err);
