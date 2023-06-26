@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useRouter } from 'next/router';
+import { dateFormatter } from '../../utils/dateFormat';
 
 const ShowTickets = ({ user }) => {
   const [tickets, setTickets] = useState([]);
   const [error, setError] = useState(null);
+  const router = useRouter();
 
   useEffect(() => {
     const GetTickets = async () => {
@@ -25,14 +28,27 @@ const ShowTickets = ({ user }) => {
     GetTickets();
   }, []);
 
-  console.log(tickets);
+  const deleteTicket = async ticketId => {
+    const token = localStorage.getItem('token');
+    await axios.delete(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/tickets/${ticketId}`,
+      { headers: { 'x-access-token': token } }
+    );
+    router.reload();
+  };
 
   const handleModify = () => {
     alert('modifier');
   };
 
-  const handleDelete = () => {
-    alert('supprimer');
+  const handleDelete = ticketId => {
+    confirm('êtes vous sur de vouloir supprimer ce ticket ?');
+
+    deleteTicket(ticketId);
+
+    alert(`Ticket ${ticketId} supprimé`);
+
+    router.reload();
   };
 
   return (
@@ -41,7 +57,7 @@ const ShowTickets = ({ user }) => {
       <div className="flex flex-wrap gap-2">
         {tickets.map(ticket => (
           <div
-            key={ticket.id}
+            key={ticket._id}
             className="flex flex-col p-2 gap-2 border border-black rounded-md mb-2
 					bg-gray-200 justify-center items-center"
           >
@@ -68,7 +84,7 @@ const ShowTickets = ({ user }) => {
             </p>
             <p>
               <span className="underline">Date de création du ticket</span> :{' '}
-              {ticket.dateCreation}
+              {dateFormatter(ticket.dateCreation)}
             </p>
             <div className="flex flex-row gap-2">
               <button
@@ -79,7 +95,7 @@ const ShowTickets = ({ user }) => {
               </button>
               <button
                 className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                onClick={handleDelete}
+                onClick={() => handleDelete(ticket._id)}
               >
                 Supprimer
               </button>

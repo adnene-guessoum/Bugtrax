@@ -24,7 +24,7 @@ const IndexPage = (): JSX.Element => {
 
           console.log(checkResponse);
 
-          if (checkResponse.data.auth === false) {
+          if (!checkResponse.data) {
             setValidToken(false);
             localStorage.removeItem('token');
           } else {
@@ -39,6 +39,7 @@ const IndexPage = (): JSX.Element => {
     }
   }, []);
 
+  console.log(`utilisateur: ${user.nomUtilisateur}`);
   if (validToken) {
     return <AccueilEspaceUtilisateur user={user} />;
   } else {

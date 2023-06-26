@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ProfileBanner from './trackerComponents/ProfileBanner';
 import CreateTicket from './trackerComponents/CreateTicket';
 import ShowTickets from './trackerComponents/ShowTickets';
 import { IUser } from '../types/custom.d';
-import { format } from 'date-fns';
-import { fr } from 'date-fns/locale';
+import { dateFormatter } from '../utils/dateFormat';
+import { checkUser } from '../utils/tokenCheck';
+import router from 'next/router';
 
 const AccueilEspaceUtilisateur: React.FC<{ user: IUser }> = ({ user }) => {
   const initialState = {
@@ -15,14 +16,6 @@ const AccueilEspaceUtilisateur: React.FC<{ user: IUser }> = ({ user }) => {
 
   const [hidden, setHidden] = React.useState(initialState);
 
-  const dateFormatter = (date: Date) => {
-    const dateObject = new Date(date);
-    const dateFormated = format(dateObject, 'dd MMMM yyyy', {
-      locale: fr
-    });
-    return dateFormated;
-  };
-
   const dateInscription = dateFormatter(user.dateCreation);
 
   const handleClick = e => {
@@ -32,6 +25,22 @@ const AccueilEspaceUtilisateur: React.FC<{ user: IUser }> = ({ user }) => {
       [section]: !hidden[section]
     });
   };
+
+  useEffect(() => {
+    try {
+      const checkToken = async () => {
+        const tokenServerResponse = await checkUser();
+
+        if (tokenServerResponse === false) {
+          localStorage.removeItem('token');
+          router.push('/login');
+        }
+      };
+      checkToken();
+    } catch (error: any) {
+      console.log(error);
+    }
+  }, []);
 
   return (
     <>
@@ -87,10 +96,20 @@ const AccueilEspaceUtilisateur: React.FC<{ user: IUser }> = ({ user }) => {
       >
         <h1 className="text-2xl">Mon profile</h1>
         <ul className="flex flex-col justify-center items-center gap-2">
-          <li>{user.nomUtilisateur}</li>
-          <li>{user.email}</li>
-          <li>{user.role}</li>
-          <li>{dateInscription}</li>
+          <li>
+            <span className="underline">Utilisateur </span> :{' '}
+            {user.nomUtilisateur}
+          </li>
+          <li>
+            <span className="underline">addresse mail </span> : {user.email}
+          </li>
+          <li>
+            <span className="underline">rôle </span> : {user.role}
+          </li>
+          <li>
+            <span className="underline">Date d&apos;inscription </span> :{' '}
+            {dateInscription}
+          </li>
         </ul>
       </div>
       <div
