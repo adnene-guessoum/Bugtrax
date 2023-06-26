@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const ShowTickets = ({ user }) => {
-  const [tickets, setTickets] = useState({});
+  const [tickets, setTickets] = useState([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -27,31 +27,68 @@ const ShowTickets = ({ user }) => {
 
   console.log(tickets);
 
+  const handleModify = () => {
+    alert('modifier');
+  };
+
+  const handleDelete = () => {
+    alert('supprimer');
+  };
+
   return (
     <div>
-      <p className="text-2xl mb-2">tickets de {user.nomUtilisateur}</p>
-      <div className="flex flex-wrap p-2 gap-2 border border-black">
+      <p className="text-2xl mb-2 underline">Tickets {user.nomUtilisateur} :</p>
+      <div className="flex flex-wrap gap-2">
         {tickets.map(ticket => (
           <div
             key={ticket.id}
-            className="flex flex-wrap p-2 gap-2 border border-black"
+            className="flex flex-col p-2 gap-2 border border-black rounded-md mb-2
+					bg-gray-200 justify-center items-center"
           >
-            <p>{ticket.nomTicket}</p>
-            <p>{ticket.description}</p>
-            <p>{ticket.etat}</p>
-            <p>{ticket.priorite}</p>
-            <p>{ticket.tempsEstime}</p>
-            <p>{ticket.tempsPasse}</p>
-            <p>{ticket.dateCreation}</p>
+            <p>
+              <span className="underline">Titre </span> : {ticket.nomTicket}
+            </p>
+            <p>
+              <span className="underline">description </span> :{' '}
+              {ticket.description}
+            </p>
+            <p>
+              <span className="underline">status </span> : {ticket.etat}
+            </p>
+            <p>
+              <span className="underline">priorité </span> : {ticket.priorite}
+            </p>
+            <p>
+              <span className="underline">Temps estimée</span> :{' '}
+              {ticket.tempsEstime} heures
+            </p>
+            <p>
+              <span className="underline">Temps Passée</span> :{' '}
+              {ticket.tempsPasse} heures
+            </p>
+            <p>
+              <span className="underline">Date de création du ticket</span> :{' '}
+              {ticket.dateCreation}
+            </p>
+            <div className="flex flex-row gap-2">
+              <button
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                onClick={handleModify}
+              >
+                Modifier
+              </button>
+              <button
+                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                onClick={handleDelete}
+              >
+                Supprimer
+              </button>
+            </div>
           </div>
         ))}
       </div>
 
-      {error && (
-        <p className="text-red-500">
-          Erreur lors de la récupération des tickets
-        </p>
-      )}
+      <p className="text-red-500">{error}</p>
     </div>
   );
 };
