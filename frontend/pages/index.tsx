@@ -1,47 +1,64 @@
 import AccueilRedirect from '../components/AccueilRedirect';
 import AccueilEspaceUtilisateur from '../components/AccueilEspaceUtilisateur';
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import axios from 'axios';
 
 const IndexPage = (): JSX.Element => {
   const [validToken, setValidToken] = useState<boolean>(false);
+  const [expired, setExpired] = useState<boolean>(false);
   const [user, setUser] = useState({
     nomUtilisateur: '',
     email: '',
     motDePasse: ''
   });
 
+  const router = useRouter();
+
   useEffect(() => {
-    try {
-      const checkUser = async () => {
+    const checkUser = async () => {
+      try {
         const token = localStorage.getItem('token');
 
-        if (token) {
-          const checkResponse = await axios.get(
-            `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/`,
-            { headers: { 'x-access-token': token } }
-          );
-
-          console.log(checkResponse);
-
-          if (!checkResponse.data) {
-            setValidToken(false);
-            localStorage.removeItem('token');
-          } else {
-            setValidToken(true);
-            setUser(checkResponse.data);
-          }
+        if (!token) {
+          setValidToken(false);
+          setExpired(false);
+          return;
         }
-      };
-      checkUser();
-    } catch (error: any) {
-      console.log(error);
-    }
+
+        const checkResponse = await axios.get(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/`,
+          { headers: { 'x-access-token': token } }
+        );
+
+        setValidToken(true);
+        setExpired(false);
+        setUser(checkResponse.data);
+      } catch (error: any) {
+        if (error.response.status === 401) {
+          localStorage.removeItem('token');
+          alert(
+            "Votre session a expiré, vous allez être redirigé vers la page d'accueil. Veuillez vous reconnecter."
+          );
+          setValidToken(false);
+          setExpired(true);
+        } else {
+          console.log(error);
+          localStorage.removeItem('token');
+        }
+      }
+    };
+    checkUser();
   }, []);
 
-  console.log(`utilisateur: ${user.nomUtilisateur}`);
+  const loginRedirect = router => {
+    router.push('/login');
+  };
+
   if (validToken) {
     return <AccueilEspaceUtilisateur user={user} />;
+  } else if (expired) {
+    return <>{loginRedirect(router)}</>;
   } else {
     return <AccueilRedirect />;
   }

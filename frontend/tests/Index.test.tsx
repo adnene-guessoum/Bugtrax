@@ -10,6 +10,12 @@ jest.mock('axios', () => ({
   post: jest.fn()
 }));
 
+jest.mock('next/router', () => ({
+  useRouter: jest.fn().mockReturnValue({
+    push: jest.fn()
+  })
+}));
+
 describe('IndexPage', () => {
   it('renders the general elements of the layout', () => {
     render(<IndexPage />);
