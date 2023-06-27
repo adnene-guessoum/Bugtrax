@@ -36,21 +36,21 @@ describe('Auth middleware', () => {
     expect(res.send).not.toHaveBeenCalled();
   });
 
-  it('should return 500 if invalid token provided', () => {
-    const error = new Error('Invalid token');
+  it('should return 401 if expired token provided', () => {
+    const error = new jwt.TokenExpiredError('JWT expired', new Date());
 
     (jwt.verify as jest.Mock).mockImplementation(() => {
       throw error;
     });
 
-    req.headers = { 'x-access-token': 'invalid-token' };
+    req.headers = { 'x-access-token': 'expired-token' };
 
     auth(req as Request, res as Response, next);
 
-    expect(res.status).toHaveBeenCalledWith(500);
+    expect(res.status).toHaveBeenCalledWith(401);
     expect(res.send).toHaveBeenCalledWith({
       auth: false,
-      message: 'Token invalide. Veuillez vous reconnecter'
+      message: 'Token expiré. Veuillez vous reconnecter'
     });
     expect(next).not.toHaveBeenCalled();
     expect(res.json).not.toHaveBeenCalled();

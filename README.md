@@ -5,6 +5,13 @@
 
 Bug tracker avec auth, base de données, Dockerization etc...
 
+![illu1](./frontend/public/illu1.png)
+![illu2](./frontend/public/illu2.png)
+![illu3](./frontend/public/illu3.png)
+![illu4](./frontend/public/illu4.png)
+![illu5](./frontend/public/illu5.png)
+![illu6](./frontend/public/illu6.png)
+
 ## Parcours utilisateurs:
 
 En tant qu'utilisateur je veux pouvoir:
@@ -22,7 +29,46 @@ En tant qu'utilisateur je veux pouvoir:
 - Frontend next pour UI/UX
 - Backend node gestion des utilisateurs / tickets
 
-### déploiement:
+## Participation / test local du projet:
+
+- fork / clone
+- dans le terminal (racine projet):
+
+		```bash
+			# pour lancer les conteneurs
+			(sudo) docker-compose up --build -d
+
+			# pour arrêter les conteneurs
+			(sudo) docker compose down
+
+			# pour entrer dans un conteneur (si besoin)
+			(sudo) docker exec -it <nom du conteneur> sh
+		```
+frontend next: port 3000; backend node: port 8000
+
+- Au démarrage, ou aprés avoir lancer les tests (```npm run test-all```), la base de données est vide.
+
+	Pour créer un compte : cliquer sur s'inscrire et remplir le formulaire.
+
+	Pour utiliser le compte invité : remplir le formulaire avec: nom "invité", email "invite@mail.com", mot de passe "invite"
+
+	vous pourrez ensuite vous connecter et creer, modifier, supprimer vos tickets
+
+- base de données utilisable pour le dev dans conteneurs (montée dans le dossier ./db pour persistance et accèssibillité):
+
+		mongodb: localhost:27017
+		admin usernames et passwords pour les tests locaux uniquement
+		cf. docker-compose.yml - image mongo officielle
+
+- Tests/lint/format:
+	- ```npm run test-all``` dans frontend ou backend: eslint, prettier, type-check et tests unitaires (pour les commandes spécifiques: voir package.json)
+	- TODO: pre-commit hooks et Taskfile général (root folder)
+
+- TODO: scripts de population / génération de données pour les db dev
+
+Normalement, tout est bon. si questions, n'hésitez pas.
+
+### (En cours) déploiement:
 
 - docker
 - github actions
@@ -44,37 +90,6 @@ En tant qu'utilisateur je veux pouvoir:
 - mongoose
 - mongodb
 - typescript
-
-## Participation / test du projet:
-
-- fork / clone
-- dans le terminal (racine projet):
-
-		```bash
-			# pour lancer les conteneurs
-			(sudo) docker-compose up --build -d
-
-			# pour arrêter les conteneurs
-			(sudo) docker compose down
-
-			# pour entrer dans un conteneur (si besoin)
-			(sudo) docker exec -it <nom du conteneur> sh
-		```
-frontend next: port 3000; backend node: port 8000
-
-- base de données utilisable pour le dev dans conteneurs (montée dans le dossier ./db pour persistance et accèssibillité):
-
-		mongodb: localhost:27017
-		admin usernames et passwords pour les tests locaux uniquement
-		cf. docker-compose.yml - image mongo officielle
-
-- Tests/lint/format:
-	- ```npm run test-all``` dans frontend ou backend: eslint, prettier, type-check et tests unitaires (pour les commandes spécifiques: voir package.json)
-	- TODO: pre-commit hooks et Taskfile général (root folder)
-
-- TODO: scripts de population / génération de données pour les db dev
-
-Normalement, tout est bon. si questions, n'hésitez pas.
 
 ### Progression :
 

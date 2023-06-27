@@ -37,7 +37,7 @@ export const auth = function (
         message: 'Token expiré. Veuillez vous reconnecter'
       });
     } else if (error instanceof jwt.JsonWebTokenError) {
-      return res.status(401).send({
+      return res.status(500).send({
         auth: false,
         message: 'Token invalide. Veuillez vous reconnecter'
       });
