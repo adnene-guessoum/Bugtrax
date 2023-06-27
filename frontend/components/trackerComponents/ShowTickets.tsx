@@ -2,9 +2,12 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { dateFormatter } from '../../utils/dateFormat';
+import ModifierTicket from './modifTicket';
 
 const ShowTickets = ({ user }) => {
   const [tickets, setTickets] = useState([]);
+  const [modifier, setModifier] = useState(false);
+  const [ticketToMod, setTicketToMod] = useState(null);
   const [error, setError] = useState(null);
   const router = useRouter();
 
@@ -20,7 +23,7 @@ const ShowTickets = ({ user }) => {
         console.log(response);
         setTickets(response.data);
       } catch (error) {
-        console.log(error);
+        alert(error);
         setError(error);
       }
     };
@@ -37,8 +40,17 @@ const ShowTickets = ({ user }) => {
     router.reload();
   };
 
-  const handleModify = () => {
-    alert('modifier');
+  const displayModifyPanel = ticket => {
+    setTicketToMod(ticket);
+    setModifier(true);
+  };
+
+  const renderModifyPanel = () => {
+    if (modifier) {
+      return <ModifierTicket ticket={ticketToMod} />;
+    } else {
+      return null;
+    }
   };
 
   const handleDelete = ticketId => {
@@ -89,7 +101,7 @@ const ShowTickets = ({ user }) => {
             <div className="flex flex-row gap-2">
               <button
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                onClick={handleModify}
+                onClick={() => displayModifyPanel(ticket)}
               >
                 Modifier
               </button>
@@ -100,6 +112,7 @@ const ShowTickets = ({ user }) => {
                 Supprimer
               </button>
             </div>
+            {renderModifyPanel()}
           </div>
         ))}
       </div>

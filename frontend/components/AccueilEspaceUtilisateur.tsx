@@ -4,7 +4,7 @@ import CreateTicket from './trackerComponents/CreateTicket';
 import ShowTickets from './trackerComponents/ShowTickets';
 import { IUser } from '../types/custom.d';
 import { dateFormatter } from '../utils/dateFormat';
-import { checkUser } from '../utils/tokenCheck';
+import axios from 'axios';
 import router from 'next/router';
 
 const AccueilEspaceUtilisateur: React.FC<{ user: IUser }> = ({ user }) => {
@@ -28,15 +28,26 @@ const AccueilEspaceUtilisateur: React.FC<{ user: IUser }> = ({ user }) => {
 
   useEffect(() => {
     try {
-      const checkToken = async () => {
-        const tokenServerResponse = await checkUser();
+      const checkUser = async () => {
+        const token = localStorage.getItem('token');
 
-        if (tokenServerResponse === false) {
-          localStorage.removeItem('token');
+        if (token) {
+          const checkResponse = await axios.get(
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/`,
+            { headers: { 'x-access-token': token } }
+          );
+
+          if (!checkResponse.data) {
+            localStorage.removeItem('token');
+            router.push('/login');
+          } else {
+            console.log('user is logged in');
+          }
+        } else {
           router.push('/login');
         }
       };
-      checkToken();
+      checkUser();
     } catch (error: any) {
       console.log(error);
     }
