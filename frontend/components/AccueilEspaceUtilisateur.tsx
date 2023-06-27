@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ProfileBanner from './trackerComponents/ProfileBanner';
 import CreateTicket from './trackerComponents/CreateTicket';
 import ShowTickets from './trackerComponents/ShowTickets';
 import { IUser } from '../types/custom.d';
-import { format } from 'date-fns';
+import { dateFormatter } from '../utils/dateFormat';
+import axios from 'axios';
+import router from 'next/router';
 
 const AccueilEspaceUtilisateur: React.FC<{ user: IUser }> = ({ user }) => {
   const initialState = {
@@ -14,6 +16,8 @@ const AccueilEspaceUtilisateur: React.FC<{ user: IUser }> = ({ user }) => {
 
   const [hidden, setHidden] = React.useState(initialState);
 
+  const dateInscription = dateFormatter(user.dateCreation);
+
   const handleClick = e => {
     const section = e.target.getAttribute('data-section');
     setHidden({
@@ -21,6 +25,33 @@ const AccueilEspaceUtilisateur: React.FC<{ user: IUser }> = ({ user }) => {
       [section]: !hidden[section]
     });
   };
+
+  useEffect(() => {
+    try {
+      const checkUser = async () => {
+        const token = localStorage.getItem('token');
+
+        if (token) {
+          const checkResponse = await axios.get(
+            `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/`,
+            { headers: { 'x-access-token': token } }
+          );
+
+          if (!checkResponse.data) {
+            localStorage.removeItem('token');
+            router.push('/login');
+          } else {
+            console.log('user is logged in');
+          }
+        } else {
+          router.push('/login');
+        }
+      };
+      checkUser();
+    } catch (error: any) {
+      console.log(error);
+    }
+  }, []);
 
   return (
     <>
@@ -69,24 +100,32 @@ const AccueilEspaceUtilisateur: React.FC<{ user: IUser }> = ({ user }) => {
         </ul>
       </nav>
       <div
-        className={`flex flex-col justify-center items-center gap-2 ${
-          hidden.profile ? 'hidden' : ''
-        }`}
+        className={`flex flex-col border-black border-2 p-4 m-4
+				justify-center items-center gap-2 ${hidden.profile ? 'hidden' : ''}`}
         data-testid="profile-section"
         id="profile"
       >
         <h1 className="text-2xl">Mon profile</h1>
         <ul className="flex flex-col justify-center items-center gap-2">
-          <li>{user.nomUtilisateur}</li>
-          <li>{user.email}</li>
-          <li>{user.role}</li>
-          <li>{format(user.dateCreation, 'dd-MM-yyyy')}</li>
+          <li>
+            <span className="underline">Utilisateur </span> :{' '}
+            {user.nomUtilisateur}
+          </li>
+          <li>
+            <span className="underline">addresse mail </span> : {user.email}
+          </li>
+          <li>
+            <span className="underline">rôle </span> : {user.role}
+          </li>
+          <li>
+            <span className="underline">Date d&apos;inscription </span> :{' '}
+            {dateInscription}
+          </li>
         </ul>
       </div>
       <div
-        className={`flex flex-col justify-center items-center gap-2 ${
-          hidden.tickets ? 'hidden' : ''
-        }`}
+        className={`flex flex-col border-black border-2 p-4 m-4
+				justify-center items-center gap-2 ${hidden.tickets ? 'hidden' : ''}`}
         data-testid="tickets-section"
         id="tickets"
       >
@@ -94,9 +133,8 @@ const AccueilEspaceUtilisateur: React.FC<{ user: IUser }> = ({ user }) => {
         <ShowTickets user={user} />
       </div>
       <div
-        className={`flex flex-col justify-center items-center gap-2 ${
-          hidden['addTicket'] ? 'hidden' : ''
-        }`}
+        className={`flex flex-col border-black border-2 p-4 m-4
+				justify-center items-center gap-2 ${hidden['addTicket'] ? 'hidden' : ''}`}
         data-testid="add-ticket-section"
         id="addTicket"
       >

@@ -39,6 +39,7 @@ const IndexPage = (): JSX.Element => {
     }
   }, []);
 
+  console.log(`utilisateur: ${user.nomUtilisateur}`);
   if (validToken) {
     return <AccueilEspaceUtilisateur user={user} />;
   } else {

@@ -8,17 +8,19 @@ import User, { IUser } from '../models/user.ts';
 import { Request, Response } from 'express';
 
 const validateUserRegistration = [
-  check('username', "Veuillez entrer un nom d'utilisateur").not().isEmpty(),
+  check('nomUtilisateur', "Veuillez entrer un nom d'utilisateur")
+    .not()
+    .isEmpty(),
   check('email', 'Veuillez entrer un email valide').isEmail(),
   check(
-    'password',
+    'motDePasse',
     'Veuillez entrer un mot de passe avec 6 ou plus de caractères'
   ).isLength({ min: 6 })
 ];
 
 const validateUserLogin = [
   check('email', 'Veuillez entrer un email valide').isEmail(),
-  check('password', 'Veuillez entrer un mot de passe valide').exists()
+  check('motDePasse', 'Veuillez entrer un mot de passe valide').exists()
 ];
 
 const DbCheckEmailAlreadyExists = async (email: string) => {
@@ -66,7 +68,7 @@ const DbUserCheckRegistration = async (
 
 const DbUserMatchCheck = async (
   email: string,
-  password: string,
+  motDePasse: string,
   res: Response
 ) => {
   const user = await User.findOne({ email });
@@ -77,7 +79,7 @@ const DbUserMatchCheck = async (
     });
   }
 
-  const isMatch = await bcrypt.compare(password, user.motDePasse);
+  const isMatch = await bcrypt.compare(motDePasse, user.motDePasse);
 
   if (!isMatch) {
     return res.status(400).json({
@@ -89,19 +91,19 @@ const DbUserMatchCheck = async (
 };
 
 const DbCreateUser = async (
-  username: string,
+  nomUtilisateur: string,
   email: string,
-  password: string,
+  motDePasse: string,
   res: Response
 ) => {
   const user = new User<Partial<IUser>>({
-    nomUtilisateur: username,
+    nomUtilisateur: nomUtilisateur,
     email,
-    motDePasse: password
+    motDePasse: motDePasse
   });
 
   const salt = await bcrypt.genSalt(10);
-  user.motDePasse = await bcrypt.hash(password, salt);
+  user.motDePasse = await bcrypt.hash(motDePasse, salt);
 
   await user.save();
 
@@ -114,10 +116,10 @@ const handleUserRegistration = async (req: Request, res: Response) => {
     return res.status(400).json({ errors: validationErrors.array() });
   }
 
-  const { username, email, password } = req.body;
+  const { nomUtilisateur, email, motDePasse } = req.body;
 
   try {
-    DbUserCheckRegistration(username, email, res);
+    DbUserCheckRegistration(nomUtilisateur, email, res);
   } catch (err: any) {
     console.error(err.message);
     return res
@@ -126,7 +128,7 @@ const handleUserRegistration = async (req: Request, res: Response) => {
   }
 
   try {
-    DbCreateUser(username, email, password, res);
+    DbCreateUser(nomUtilisateur, email, motDePasse, res);
   } catch (err: any) {
     console.error(err.message);
     return res
@@ -137,7 +139,7 @@ const handleUserRegistration = async (req: Request, res: Response) => {
 
 const handleGetUser = async (req: Request & { user: any }, res: Response) => {
   try {
-    const user = await User.findById(req.user.id).select('-password');
+    const user = await User.findById(req.user.id).select('-motDePasse');
     return res.json(user);
   } catch (err: any) {
     console.error(err.message);
@@ -148,14 +150,14 @@ const handleGetUser = async (req: Request & { user: any }, res: Response) => {
 };
 
 const handleUserLogin = async (req: Request & { user: any }, res: Response) => {
-  const { email, password } = req.body;
+  const { email, motDePasse } = req.body;
   const validationErrors = validationResult(req);
   if (!validationErrors.isEmpty()) {
     return res.status(400).json({ errors: validationErrors.array() });
   }
 
   try {
-    const resultMatchCheck = DbUserMatchCheck(email, password, res);
+    const resultMatchCheck = DbUserMatchCheck(email, motDePasse, res);
     return resultMatchCheck;
   } catch (err: any) {
     console.log(

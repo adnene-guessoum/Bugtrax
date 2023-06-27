@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useRouter } from 'next/router';
 
 const CreateTicket = () => {
   const [error, setError] = useState('');
@@ -13,6 +14,8 @@ const CreateTicket = () => {
     dateCreation: Date.now()
   });
 
+  const router = useRouter();
+
   const submitTicket = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
@@ -24,6 +27,17 @@ const CreateTicket = () => {
       );
       console.log(res);
       alert('Ticket créé !');
+      setTicket({
+        nomTicket: '',
+        description: '',
+        etat: '',
+        priorite: '',
+        tempsEstime: '',
+        tempsPasse: '',
+        dateCreation: Date.now()
+      });
+
+      router.reload();
     } catch (err) {
       setError(err);
       console.log(err);

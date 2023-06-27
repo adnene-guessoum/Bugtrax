@@ -16,7 +16,7 @@ const handleGetTickets = async (
     if (!tickets) {
       return res.status(404).json({ msg: 'Aucun ticket trouvé' });
     }
-    res.json(tickets);
+    return res.json(tickets);
   } catch (err: any) {
     console.error(err.message);
     res.status(500).send('Erreur serveur lors de la récupération des tickets');
@@ -29,7 +29,7 @@ const handleGetTicketDetails = async (req: Request, res: Response) => {
     if (!ticket) {
       return res.status(404).json({ msg: 'Ticket non trouvé' });
     }
-    res.json(ticket);
+    return res.json(ticket);
   } catch (err: any) {
     console.error(err.message);
     res.status(500).send('Erreur serveur lors de la récupération du ticket');
