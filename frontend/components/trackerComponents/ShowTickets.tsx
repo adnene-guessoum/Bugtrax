@@ -81,7 +81,7 @@ const ShowTickets = ({ user }) => {
               {ticket.description}
             </p>
             <p>
-              <span className="underline">status </span> : {ticket.etat}
+              <span className="underline">statut </span> : {ticket.etat}
             </p>
             <p>
               <span className="underline">priorité </span> : {ticket.priorite}

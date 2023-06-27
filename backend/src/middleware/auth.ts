@@ -31,9 +31,17 @@ export const auth = function (
     console.log('decoded.user :', decoded.user);
     next();
   } catch (error) {
-    return res.status(500).send({
-      auth: false,
-      message: 'Token invalide. Veuillez vous reconnecter'
-    });
+    if (error instanceof jwt.TokenExpiredError) {
+      return res.status(401).send({
+        auth: false,
+        message: 'Token expiré. Veuillez vous reconnecter'
+      });
+    } else if (error instanceof jwt.JsonWebTokenError) {
+      return res.status(500).send({
+        auth: false,
+        message: 'Token invalide. Veuillez vous reconnecter'
+      });
+    }
+    console.error(error);
   }
 };

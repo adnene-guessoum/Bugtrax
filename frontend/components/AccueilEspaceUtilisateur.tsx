@@ -1,11 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import ProfileBanner from './trackerComponents/ProfileBanner';
 import CreateTicket from './trackerComponents/CreateTicket';
 import ShowTickets from './trackerComponents/ShowTickets';
 import { IUser } from '../types/custom.d';
 import { dateFormatter } from '../utils/dateFormat';
-import axios from 'axios';
-import router from 'next/router';
 
 const AccueilEspaceUtilisateur: React.FC<{ user: IUser }> = ({ user }) => {
   const initialState = {
@@ -25,33 +23,6 @@ const AccueilEspaceUtilisateur: React.FC<{ user: IUser }> = ({ user }) => {
       [section]: !hidden[section]
     });
   };
-
-  useEffect(() => {
-    try {
-      const checkUser = async () => {
-        const token = localStorage.getItem('token');
-
-        if (token) {
-          const checkResponse = await axios.get(
-            `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/`,
-            { headers: { 'x-access-token': token } }
-          );
-
-          if (!checkResponse.data) {
-            localStorage.removeItem('token');
-            router.push('/login');
-          } else {
-            console.log('user is logged in');
-          }
-        } else {
-          router.push('/login');
-        }
-      };
-      checkUser();
-    } catch (error: any) {
-      console.log(error);
-    }
-  }, []);
 
   return (
     <>
