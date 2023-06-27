@@ -11,10 +11,11 @@ En tant qu'utilisateur je veux pouvoir:
 
 - créer un compte
 - me connecter
-- créer un ticket
 - voir mes tickets
-- voir les tickets des autres utilisateurs
+- créer un ticket
 - modifier mes tickets
+- supprimer mes tickets
+- voir mon profile utilisateur
 
 ## organisation du projet :
 
@@ -24,26 +25,27 @@ En tant qu'utilisateur je veux pouvoir:
 ### déploiement:
 
 - docker
-- google cloud
 - github actions
 - CI/CD
+- google cloud
+- vercel
+- mongo atlas
 
 ### frontend:
 
 - react/next
 - typescript
 - tailwind css
-- redux ?
 
 ### backend:
 
 - node
 - express
-- typescript
 - mongoose
 - mongodb
+- typescript
 
-## Participation:
+## Participation / test du projet:
 
 - fork / clone
 - dans le terminal (racine projet):
@@ -67,14 +69,12 @@ frontend next: port 3000; backend node: port 8000
 		cf. docker-compose.yml - image mongo officielle
 
 - Tests/lint/format:
-	- ```npm run test-all``` dans frontend next et backend node: eslint, prettier, type-check et tests unitaires (pour les commandes spécifiques: voir package.json)
-	- ```task test-all``` dans api django: flake8, pylint, black, mypy, pytest (idem: voir Taskfile.yml pour les commandes spécifiques)
+	- ```npm run test-all``` dans frontend ou backend: eslint, prettier, type-check et tests unitaires (pour les commandes spécifiques: voir package.json)
 	- TODO: pre-commit hooks et Taskfile général (root folder)
 
 - TODO: scripts de population / génération de données pour les db dev
 
-Normalement, tout est bon. vous êtes prêts. si questions, n'hésitez pas.
-
+Normalement, tout est bon. si questions, n'hésitez pas.
 
 ### Progression :
 
@@ -92,12 +92,16 @@ Normalement, tout est bon. vous êtes prêts. si questions, n'hésitez pas.
 
 Frontend:
 - [x] Page Accueil
-- [x] pages auth: login page, node, Oauth...
-- [x] tests unitaires: pages accueil, login, register
+- [x] pages auth: login page, Register page, formulaires, axios...
+- [x] tests unitaires: pages accueil, login, register...
+- [x] composants gestion des tickets: ajouter, modifier, supprimer
+- [x] gestion des redirects et expiration tokens
 - ... cf. Readme front
 
 Backend:
 - [x] tests unitaires
-- [] auth et user models
-- [] ticket models
+- [x] auth et user models
+- [x] ticket models
+- [x] routes et controllers
+- [] e2e tests (TODO)
 - ... cf. Readme back
