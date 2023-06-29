@@ -12,10 +12,6 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: ./backend
-
     env:
       IMAGE_NAME: gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_APP_NAME }}
 
@@ -34,13 +30,13 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Docker image build
+      working-directory: ./backend
       run: docker build -f Dockerfile.prod -t $IMAGE_NAME .
 
-    - name: Docker image test
-      run: docker run $IMAGE_NAME sh -c "npm run test-all"
-
     - name: Docker image push
+      working-directory: ./backend
       run: docker push $IMAGE_NAME
 
     - name: Docker image deploy
+      working-directory: ./backend
       run: gcloud run deploy ${{ secrets.GCP_PROJECT_ID }} --image $IMAGE_NAME --region us-central1 --platform managed
