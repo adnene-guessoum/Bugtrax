@@ -7,7 +7,7 @@ RUN npm ci --production
 
 COPY . .
 
-RUN npm run build:prod
+RUN npm run build
 
 FROM node:18-alpine as runner
 
@@ -20,4 +20,4 @@ COPY --from=builder /app/dist ./dist
 
 EXPOSE 8080
 
-CMD ["node", "dist/src/app.js"]
+CMD ["npm", "run", "start"]

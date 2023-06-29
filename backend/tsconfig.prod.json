@@ -1,8 +1,0 @@
-{
-  "extends": "./tsconfig.json",
-  "compilerOptions": {
-    "sourceMap": false,
-    "allowImportingTsExtensions": false
-  },
-  "exclude": ["node_modules", "out"]
-}

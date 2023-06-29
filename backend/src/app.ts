@@ -4,8 +4,8 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 dotenv.config({ path: '../.env' });
 
-import userRouter from './routes/users.ts';
-import ticketRouter from './routes/tickets.ts';
+import userRouter from './routes/users.js';
+import ticketRouter from './routes/tickets.js';
 
 const hostname = '0.0.0.0';
 const port = 8080;

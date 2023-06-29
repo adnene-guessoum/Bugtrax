@@ -15,7 +15,7 @@ export default {
   testPathIgnorePatterns: ['<rootDir>[/\\\\](node_modules)[/\\\\]'],
   transformIgnorePatterns: ['[/\\\\]node_modules[/\\\\].+\\.(ts|tsx)$'],
   transform: {
-    '^.+\\.m?[tj]s?$': ['ts-jest', { useESM: true }]
+    '^.+\\.m?[tj]s?$': ['ts-jest', { tsconfig: 'tsconfig.json' }]
   },
   preset: 'ts-jest/presets/default-esm',
   testEnvironment: 'node',

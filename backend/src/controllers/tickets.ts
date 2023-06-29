@@ -2,7 +2,7 @@
  * controllers tickets routes
  */
 import { Response, Request } from 'express';
-import Ticket, { TicketDocument } from '../models/tickets.ts';
+import Ticket, { TicketDocument } from '../models/tickets.js';
 import { validationResult } from 'express-validator';
 
 const handleGetTickets = async (
