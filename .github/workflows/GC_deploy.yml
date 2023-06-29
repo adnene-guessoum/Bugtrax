@@ -29,6 +29,9 @@ jobs:
     - name: Checkout repo
       uses: actions/checkout@v2
 
+    - name: Installer TypeScript
+      run: npm install -g typescript
+
     - name: Docker image build
       working-directory: ./backend
       run: docker build -f Dockerfile.prod -t $IMAGE_NAME .
