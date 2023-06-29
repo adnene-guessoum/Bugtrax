@@ -5,9 +5,10 @@
   "main": "src/app.ts",
   "type": "module",
   "scripts": {
-    "start": "NODE_PATH=./dist node dist/app.js",
+    "start": "node dist/app.js",
     "dev": "nodemon src/app.ts",
     "build": "tsc -p .",
+    "build:prod": "tsc -p tsconfig.prod.json",
     "type-check": "tsc --pretty --noEmit",
     "format": "prettier --write .",
     "lint": "eslint . --ext .ts",
