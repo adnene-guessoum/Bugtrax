@@ -8,7 +8,7 @@ import userRouter from './routes/users.ts';
 import ticketRouter from './routes/tickets.ts';
 
 const hostname = '0.0.0.0';
-const port = 8000;
+const port = 8080;
 
 const app = express();
 
