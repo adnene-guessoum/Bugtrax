@@ -28,7 +28,7 @@ jobs:
         service_account_key: ${{ secrets.GCP_CREDENTIALS }}
 
     - name: Configurer Docker
-      run gcloud auth configure-docker --quiet
+      run: gcloud auth configure-docker --quiet
 
     - name: Checkout repo
       uses: actions/checkout@v2
