@@ -3,7 +3,7 @@ FROM node:18-alpine As builder
 WORKDIR /app
 
 COPY package.json package-lock.json ./
-RUN npm ci --production
+RUN npm install
 
 COPY . .
 
@@ -14,7 +14,7 @@ FROM node:18-alpine as runner
 WORKDIR /app
 
 COPY --from=builder /app/package.json /app/package-lock.json ./
-RUN npm ci --production
+RUN npm install
 
 COPY --from=builder /app/dist ./dist
 
