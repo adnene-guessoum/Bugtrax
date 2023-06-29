@@ -4,7 +4,7 @@
     "outDir": "dist",
     "module": "CommonJS",
     "sourceMap": false,
-		"noEmit": true
+    "allowImportingTsExtensions": false
   },
   "exclude": ["node_modules", "out"]
 }
