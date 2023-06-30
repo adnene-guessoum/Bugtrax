@@ -6,6 +6,7 @@ const ProfileBanner = ({ user }) => {
   const handleLogout = async () => {
     event.preventDefault();
     const check = confirm('Voulez-vous vraiment vous déconnecter ?');
+
     if (!check) return;
     localStorage.removeItem('token');
     router.push('/login');

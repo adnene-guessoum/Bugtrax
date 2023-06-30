@@ -10,6 +10,10 @@ const LoginForm = () => {
   const [error, setError] = useState('');
   const router = useRouter();
 
+  const randomInt = (max: number) => {
+    return Math.floor(Math.random() * max);
+  };
+
   const loginSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
@@ -41,14 +45,27 @@ const LoginForm = () => {
   const handleInvitéLogin = async () => {
     try {
       console.log('login as invite');
-      const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/login`,
+      const inviteNum = randomInt(1000);
+
+      const resRegister = await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/register`,
         {
-          email: 'invite@mail.com',
-          motDePasse: 'invite'
+          nomUtilisateur: `invité${inviteNum}`,
+          email: `invite${inviteNum}@mail.com`,
+          motDePasse: `invite${inviteNum}`
         }
       );
-      localStorage.setItem('token', res.data.token);
+
+      console.log(resRegister);
+
+      const resLogin = await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/login`,
+        {
+          email: `invite${inviteNum}@mail.com`,
+          motDePasse: `invite${inviteNum}`
+        }
+      );
+      localStorage.setItem('token', resLogin.data.token);
       alert("Vous êtes connecté en tant qu'invité");
       router.push('/');
     } catch (err) {

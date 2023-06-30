@@ -1,12 +1,12 @@
 import express from 'express';
-import { auth } from '../middleware/auth.ts';
+import { auth } from '../middleware/auth.js';
 import {
   handleGetTickets,
   handleGetTicketDetails,
   handleCreateTicket,
   handleUpdateTicket,
   handleDeleteTicket
-} from '../controllers/tickets.ts';
+} from '../controllers/tickets.js';
 
 const router = express.Router();
 router.get('/', auth, handleGetTickets as any);

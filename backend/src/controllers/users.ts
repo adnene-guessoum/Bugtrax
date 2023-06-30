@@ -4,7 +4,7 @@
 import { check, validationResult } from 'express-validator';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import User, { IUser } from '../models/user.ts';
+import User, { IUser } from '../models/user.js';
 import { Request, Response } from 'express';
 
 const validateUserRegistration = [

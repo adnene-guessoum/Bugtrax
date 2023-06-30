@@ -4,7 +4,6 @@
     "module": "ESNext",
     "target": "esnext",
     "allowJs": true,
-    "allowImportingTsExtensions": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "alwaysStrict": true,

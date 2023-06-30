@@ -1,3 +1,4 @@
+!db/README.md
 # AWS User-specific
 # Backup files #
 # Distribution / packaging
@@ -108,7 +109,6 @@ coverage.xml
 coverage/
 db.sqlite3
 db/*
-!db/README.md
 develop-eggs/
 dist
 dist/
@@ -119,6 +119,7 @@ env.bak/
 env/
 garbage/
 htmlcov/
+key.json
 lib/
 lib64/
 local_settings.py

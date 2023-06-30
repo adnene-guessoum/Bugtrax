@@ -1,0 +1,42 @@
+name: Deploiement continue backend
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  deploy:
+
+    name: Setup Gcloud Account
+
+    runs-on: ubuntu-latest
+
+    env:
+      IMAGE_NAME: gcr.io/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GCP_APP_NAME }}
+
+    steps:
+    - name: Login
+      uses: google-github-actions/setup-gcloud@v0
+      with:
+        project_id: ${{ secrets.GCP_PROJECT_ID }}
+        service_account_email: ${{ secrets.GCP_EMAIL }}
+        service_account_key: ${{ secrets.GCP_CREDENTIALS }}
+
+    - name: Configurer Docker
+      run: gcloud auth configure-docker --quiet
+
+    - name: Checkout repo
+      uses: actions/checkout@v2
+
+    - name: Docker image build
+      working-directory: ./backend
+      run: docker build -f Dockerfile.prod -t $IMAGE_NAME .
+
+    - name: Docker image push
+      working-directory: ./backend
+      run: docker push $IMAGE_NAME
+
+    - name: Docker image deploy
+      working-directory: ./backend
+      run: gcloud run deploy ${{ secrets.GCP_PROJECT_ID }} --image $IMAGE_NAME --region us-central1 --platform managed

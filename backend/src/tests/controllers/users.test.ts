@@ -1,4 +1,4 @@
-import User from '../../models/user.ts';
+import User from '../../models/user.js';
 import {
   /*
 		 validateUserRegistration,
@@ -12,7 +12,7 @@ import {
 		 */
   DbCheckEmailAlreadyExists,
   DbCheckUsernameAlreadyExists
-} from '../../controllers/users.ts';
+} from '../../controllers/users.js';
 
 describe('DbCheckEmailAlreadyExists', () => {
   it('should return true if email already exists', async () => {

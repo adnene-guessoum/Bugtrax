@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import User from '../../../models/user.ts';
+import User from '../../../models/user.js';
 import { ConnectOptions } from 'mongoose';
 
 describe('User model', () => {
