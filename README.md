@@ -100,8 +100,8 @@ Normalement, tout est bon. si questions, n'hésitez pas.
 - [x] créer le docker-compose / containers pour chaque partie de l'app
 - [x] mettre en place intégration continue (gh actions: lint/format/test on push/pull; peut-être pre-hooks commits ? pas décider encore...)
 - [x] connecter les bases de données (mongodb): local pour dev
-- [] voir pour déploiement continue (quand il y aura qqchose à déployer)
-- [] connecter les bases de données de prod projet google cloud (idem plus tard - mongo atlas )
+- [x] déploiement continue
+- [x] connecter les bases de données de prod projet google cloud ( mongo atlas )
 
 #### En Cours:
 
