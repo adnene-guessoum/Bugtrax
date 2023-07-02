@@ -122,18 +122,22 @@ const handleUserRegistration = async (req: Request, res: Response) => {
     DbUserCheckRegistration(nomUtilisateur, email, res);
   } catch (err: any) {
     console.error(err.message);
+    /*
     return res
       .status(500)
       .send(`Erreur serveur lors de la vérification des données : ${err}`);
+		*/
   }
 
   try {
     DbCreateUser(nomUtilisateur, email, motDePasse, res);
   } catch (err: any) {
     console.error(err.message);
+    /*
     return res
       .status(500)
       .send(`Erreur serveur lors de la création de l'utilisateur : ${err}`);
+*/
   }
 };
 
