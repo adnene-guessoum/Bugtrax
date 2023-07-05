@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
+import Spinner from '../items/Spinner';
 
 const RegisterForm = (): JSX.Element => {
   const [user, setUser] = useState({
@@ -8,11 +9,13 @@ const RegisterForm = (): JSX.Element => {
     email: '',
     motDePasse: ''
   });
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const router = useRouter();
 
   const registerSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const _response = await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/register`,
@@ -22,6 +25,7 @@ const RegisterForm = (): JSX.Element => {
       router.push('/login');
     } catch (err) {
       setError("une erreur est survenue lors de l'inscription");
+      setLoading(false);
       alert("Une erreur est survenue lors de l'inscription (client)");
     }
   };
@@ -82,8 +86,9 @@ const RegisterForm = (): JSX.Element => {
           data-testid="submit-button-register"
           type="submit"
           className="border border-black p-2 hover:bg-gray-300"
+          disabled={loading}
         >
-          Créer un compte
+          {loading ? <Spinner /> : 'Créer un compte'}
         </button>
         <div>{error}</div>
       </div>

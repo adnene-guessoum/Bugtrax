@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
+import Spinner from '../items/Spinner';
 
 const LoginForm = () => {
   const [user, setUser] = useState({
@@ -8,6 +9,7 @@ const LoginForm = () => {
     motDePasse: ''
   });
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const randomInt = (max: number) => {
@@ -16,6 +18,7 @@ const LoginForm = () => {
 
   const loginSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/login`,
@@ -32,6 +35,7 @@ const LoginForm = () => {
       setError(
         `une erreur est survenue lors de l'authentification. Vérifiez que votre email et votre mot de passe sont corrects et que vous êtes bien inscrit`
       );
+      setLoading(false);
       alert("Vous n'êtes pas connecté");
     }
   };
@@ -42,7 +46,9 @@ const LoginForm = () => {
     setError('');
   };
 
-  const handleInvitéLogin = async () => {
+  const handleInvitéLogin = async e => {
+    e.preventDefault();
+    setLoading(true);
     try {
       console.log('login as invite');
       const inviteNum = randomInt(1000);
@@ -57,6 +63,9 @@ const LoginForm = () => {
       );
 
       console.log(resRegister);
+
+      // concurrency issue on the backend: 503 error
+      await new Promise(resolve => setTimeout(resolve, 3000));
 
       const resLogin = await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/login`,
@@ -73,6 +82,7 @@ const LoginForm = () => {
       console.log(
         `une erreur est survenue lors de l'authentification. Veuillez-nous excuser pour la gêne occasionnée`
       );
+      setLoading(false);
       alert("Vous n'êtes pas connecté, dsl");
     }
   };
@@ -115,9 +125,10 @@ const LoginForm = () => {
             <button
               type="submit"
               data-testid="submit-button-login"
-              className="border border-black p-2 hover:bg-gray-300"
+              className="border border-black p-2 hover:bg-gray-300 min-h-[128px] "
+              disabled={loading}
             >
-              Se connecter
+              {loading ? <Spinner /> : 'Se connecter'}
             </button>
           </div>
           <div className="text-red-500">{error}</div>
@@ -125,10 +136,11 @@ const LoginForm = () => {
       </form>
       <button
         data-testid="submit-invité"
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded min-w-[250px]"
         onClick={handleInvitéLogin}
+        disabled={loading}
       >
-        Se connecter comme invité
+        {loading ? <Spinner /> : 'Se connecter en tant qu’invité'}
       </button>
     </>
   );
