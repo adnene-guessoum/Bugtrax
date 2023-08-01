@@ -41,7 +41,7 @@ const AccueilEspaceUtilisateur: React.FC<{ user: IUser }> = ({ user }) => {
               data-section="profile"
             />
             <label htmlFor="activate-profile">
-              <span className="hover:underline ml-2">Mon profile</span>
+              <span className="hover:underline ml-2">Mon profil</span>
             </label>
           </li>
           <li>
